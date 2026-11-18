@@ -371,10 +371,10 @@ function defaults() {
   return {
     v: 1, owner: '',
     people: [
-      { id: 'papa', name: 'Papa', color: '#3f6f5c', birth: '' },
-      { id: 'maman', name: 'Maman', color: '#c94f6d', birth: '' },
-      { id: 'fille1', name: 'Fille 1', color: '#e0962a', birth: '' },
-      { id: 'fille2', name: 'Fille 2', color: '#8a5fb0', birth: '' }
+      { id: 'papa', name: 'Papa Roch', color: '#3f6f5c', birth: '' },
+      { id: 'maman', name: 'Maman Roufi', color: '#c94f6d', birth: '' },
+      { id: 'fille1', name: 'Rochane', color: '#e0962a', birth: '' },
+      { id: 'fille2', name: 'Rozane', color: '#8a5fb0', birth: '' }
     ],
     kids: ['fille1', 'fille2'],
     events: [], meds: [], medLog: {}, vaccines: [],
@@ -401,6 +401,11 @@ function load() {
   if (!S) { S = d; return; }
   for (const k in d) if (S[k] === undefined) S[k] = d[k];
   for (const k of ['school', 'sleep', 'wake', 'prayer', 'fast', 'cycle', 'notif']) S[k] = Object.assign({}, d[k], S[k]);
+  if (!S.nm2) { // nouveaux prénoms affichés
+    const NM = { papa: ['Rochdi', 'Papa'], maman: ['Roufaida', 'Maman'], fille1: ['Fille 1'], fille2: ['Fille 2'] }, NEW = { papa: 'Papa Roch', maman: 'Maman Roufi', fille1: 'Rochane', fille2: 'Rozane' };
+    for (const p of S.people || []) if (NM[p.id] && NM[p.id].includes(p.name)) p.name = NEW[p.id];
+    S.nm2 = true;
+  }
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('⚠️ Mémoire du téléphone pleine'); } }
 const person = id => S.people.find(p => p.id === id);
