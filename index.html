@@ -228,6 +228,18 @@ table.pt tr.tod td{background:var(--soft);font-weight:800;color:var(--deep)}
 .brand b{font-size:17px;white-space:nowrap}
 .brand>div{min-width:0}
 
+.card.papa{border:2px solid var(--saf)}
+
+.av{border-radius:50%;object-fit:cover;border:2px solid #fff;vertical-align:middle;flex:none;box-shadow:0 1px 3px rgba(0,0,0,.15);display:inline-block}
+.who .av+.av{margin-left:-6px}
+.avl{display:inline-grid;place-items:center;color:#fff;font-weight:800;font-family:var(--serif)}
+.avbtn{position:relative;border:0;background:none;padding:0;flex:none}
+.avbtn i{position:absolute;right:-4px;bottom:-4px;font-style:normal;font-size:14px;background:var(--card);border-radius:50%;width:22px;height:22px;display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.avrow{display:flex!important;justify-content:center;gap:10px;margin-top:8px}
+.avrow>span{display:flex;flex-direction:column;align-items:center;gap:3px}
+.avrow small{font-size:11px;font-weight:800;opacity:.95;white-space:nowrap}
+.avrow .av{border-width:3px}
+
 </style>
 </head>
 <body>
@@ -411,6 +423,18 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e
 const person = id => S.people.find(p => p.id === id);
 const pname = id => id === 'all' ? 'Toute la famille' : id === 'kids' ? 'Les filles' : (person(id)?.name || '');
 const pcolor = id => person(id)?.color || '#4b2fb0';
+const avSrc = id => { try { return localStorage.getItem('kaelumAv_' + id) || ''; } catch (e) { return ''; } };
+function avatar(id, size) {
+  const src = avSrc(id), c = pcolor(id), sz = size || 22;
+  if (src) return '<img class="av" src="' + src + '" style="width:' + sz + 'px;height:' + sz + 'px;border-color:' + c + '" alt="">';
+  if (size) return '<span class="av avl" style="width:' + sz + 'px;height:' + sz + 'px;background:' + c + ';font-size:' + Math.round(sz * 0.42) + 'px">' + esc((person(id)?.name || '?').replace(/^(Papa|Maman) /, '').charAt(0)) + '</span>';
+  return '<span class="dot" style="background:' + c + '"></span>';
+}
+function whoMark(who) {
+  if (who === 'all') return '<span class="dot" style="background:#c9a27a"></span>';
+  if (who === 'kids') return S.kids.map(k => avatar(k)).join('');
+  return avatar(who);
+}
 const isOwnerWife = () => S.owner === 'maman';
 const cycleVisible = () => S.cycle.show;
 
@@ -477,7 +501,9 @@ function importPlanning(pl) {
 
 /* ---------- Planning chiffré en ligne (mise à jour automatique) ---------- */
 const b64d = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const PLAN_KEY = 'R5QwlQgJV1/YQsPfBeNBUVnnVi3dipaZrx74BhcBPdw=';
 async function syncPlanning(manual) {
+  if (!S.famKey) { S.famKey = PLAN_KEY; save(); }
   if (!S.famKey || !navigator.onLine) { if (manual) toast(S.famKey ? 'Pas de connexion' : 'Ouvre d\'abord le fichier privé'); return; }
   try {
     const r = await fetch('plannings.enc?t=' + Date.now(), { cache: 'no-store' });
@@ -759,7 +785,7 @@ function itemRow(it, D, showDone = true) {
   const isPast = D === today() && it.time && toMin(it.time) < toMin(nowHM());
   let h = '<li class="item' + (done ? ' done' : '') + '"' + (isPast && !done && it.cat !== 'med' ? ' style="opacity:.6"' : '') + '>';
   h += '<div class="t">' + (it.time || '—') + (it.ev && it.ev.end ? '<div class="mute" style="font-weight:400;font-size:12px">' + it.ev.end + (toMin(it.ev.end) < toMin(it.ev.time) ? ' +1j' : '') + '</div>' : '') + '</div><div class="body"' + (it.ev ? ' data-a="editEvent" data-id="' + it.ev.id + '"' : '') + '>';
-  h += '<div>' + esc(it.title) + '</div><div class="who"><span class="dot" style="background:' + (['all', 'kids'].includes(it.who) ? '#9b8fc4' : pcolor(it.who)) + '"></span> ' + esc(pname(it.who)) + (it.notes ? ' · ' + esc(it.notes) : '') + '</div></div>';
+  h += '<div>' + esc(it.title) + '</div><div class="who">' + whoMark(it.who) + ' ' + esc(pname(it.who)) + (it.notes ? ' · ' + esc(it.notes) : '') + '</div></div>';
   if (it.cat === 'med' && showDone) h += '<button class="chk' + (done ? ' on' : '') + '" data-a="medTake" data-d="' + D + '" data-id="' + it.med.id + '" data-t="' + it.med.t + '">' + (done ? '✓' : '') + '</button>';
   return h + '</li>';
 }
@@ -805,7 +831,8 @@ function vAccueil() {
   const D = today();
   const hr = new Date().getHours(), hello = hr < 5 ? 'Bonne nuit' : hr < 12 ? 'Bonjour' : hr < 18 ? 'Bon après-midi' : 'Bonsoir';
   const hero = heroSrc();
-  let h = '<div class="hero">' + (hero ? '<img src="' + hero + '" alt="La famille">' : '<div class="heroph">🏡</div>') + '<div><span class="greet">' + hello + ' ' + esc(pname(S.owner)) + ' ' + (hr >= 18 || hr < 5 ? '🌙' : '☀️') + '</span><b>Rozane et Rochane Family</b><span>' + S.people.map(p => esc(p.name)).join(' · ') + '</span></div></div>';
+  let h = '<div class="hero">' + (hero ? '<img src="' + hero + '" alt="La famille" data-a="heroPick">' : '<div class="heroph" data-a="heroPick" style="cursor:pointer"><span style="display:block;text-align:center;font-size:64px">📷<small style="display:block;font:800 16px var(--sans);color:var(--deep);margin-top:8px">Touchez pour ajouter<br>notre photo de famille</small></span></div>') + '<div><span class="greet">' + hello + ' ' + esc(pname(S.owner)) + ' ' + (hr >= 18 || hr < 5 ? '🌙' : '☀️') + '</span><b>Rozane et Rochane Family</b>' + (S.people.some(p => avSrc(p.id)) ? '<span class="avrow">' + S.people.map(p => '<span data-a="avPick" data-id="' + p.id + '">' + avatar(p.id, 50) + '<small>' + esc(p.name) + '</small></span>').join('') + '</span>' : '<span>' + S.people.map(p => esc(p.name)).join(' · ') + '</span>') + '</div></div>';
+  h += papaCard();
   if (!S.school.set) h += '<div class="banner warn row sp" data-a="go" data-v="plus" data-s="reglages"><span>🎒 Règle les horaires crèche / école et le réveil</span><span>›</span></div>';
   if (!('Notification' in window) || Notification.permission !== 'granted') h += '<div class="banner info row sp"><span>🔔 Active les notifications pour les rappels</span><button class="btn sm" data-a="askNotif">Activer</button></div>';
   const r = rainSoon(), rt = rainTomorrow();
@@ -830,6 +857,18 @@ function vAccueil() {
   if (bd.length) h += '<div class="card"><h2>🎂 Prochains anniversaires</h2>' + bd.map(b => '<div class="row sp" style="padding:4px 0"><span>' + esc(b.name) + '</span><span class="mute">' + fmtLong(b.when) + ' · dans ' + b.days + ' j</span></div>').join('') + '</div>';
   h += '<div class="credit">Rozane et Rochane Family · Créé par Rochdi MECHETI</div>';
   return h;
+}
+function papaCard() {
+  const D = today(), now = nowHM();
+  const evs = S.events.filter(e => e.src && (e.date > D || (e.date === D && ((e.end && toMin(e.end) < toMin(e.time)) || (e.end || e.time) >= now))))
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  const yest = S.events.find(e => e.src && e.date === addDays(D, -1) && e.end && toMin(e.end) < toMin(e.time) && now < e.end);
+  let h = '<div class="card papa"><h2>🛡️ Planning de ' + esc(pname('papa')) + ' <button class="btn sm sec" data-a="papaAll">Tout voir</button></h2>';
+  if (!S.events.some(e => e.src)) return h + '<div class="empty">' + (navigator.onLine ? 'Chargement du planning…' : 'Connecte-toi à internet une fois pour recevoir le planning') + '</div></div>';
+  if (yest) h += '<div class="banner info" style="margin-bottom:8px">🌙 En poste de nuit jusqu\'à ' + yest.end + '</div>';
+  const lab = d => d === D ? 'Auj.' : d === addDays(D, 1) ? 'Demain' : J3[parseD(d).getDay()] + ' ' + parseD(d).getDate();
+  h += evs.length ? evs.slice(0, 5).map(e => '<div class="item"><div class="t" style="min-width:86px;font-size:13px">' + lab(e.date) + '<div class="mute" style="font-weight:700">' + e.time + (e.end ? '–' + e.end : '') + '</div></div><div class="body">' + (CATS[e.cat] || CATS.autre)[0] + ' ' + esc(e.title) + (e.notes ? '<div class="who">' + esc(e.notes) + '</div>' : '') + '</div></div>').join('') : '<div class="empty">Plus rien de prévu ce mois-ci</div>';
+  return h + '<div class="row" style="gap:8px;margin-top:10px"><button class="btn sm full" data-a="planPdf">📄 PDF</button><button class="btn sm sec full" data-a="planIcs">📲 Mon agenda</button></div></div>';
 }
 function mealsHTML(D) {
   let h = '';
@@ -856,7 +895,7 @@ function vPlanning() {
   if (!weekStart) { const d = parseD(selDay); const off = (d.getDay() + 6) % 7; weekStart = addDays(selDay, -off); }
   let h = '<div class="row sp" style="margin-bottom:8px"><button class="btn sm sec" data-a="wk" data-n="-7">◀</button><b>' + fmtShort(weekStart) + ' → ' + fmtShort(addDays(weekStart, 6)) + '</b><button class="btn sm sec" data-a="wk" data-n="7">▶</button></div>';
   h += '<div class="week">' + [0, 1, 2, 3, 4, 5, 6].map(i => { const D = addDays(weekStart, i), d = parseD(D); return '<button class="' + (D === selDay ? 'on ' : '') + (D === today() ? 'today' : '') + '" data-a="selDay" data-d="' + D + '">' + J3[d.getDay()] + '<b>' + d.getDate() + '</b></button>'; }).join('') + '</div>';
-  h += '<div class="row wrap" style="margin-bottom:10px">' + [['all', 'Tous']].concat(S.people.map(p => [p.id, p.name])).map(([id, n]) => '<button class="chip' + (filter === id ? ' on' : '') + '" data-a="filter" data-id="' + id + '">' + (id !== 'all' ? '<span class="dot" style="background:' + pcolor(id) + '"></span>' : '') + esc(n) + '</button>').join('') + '</div>';
+  h += '<div class="row wrap" style="margin-bottom:10px">' + [['all', 'Tous']].concat(S.people.map(p => [p.id, p.name])).map(([id, n]) => '<button class="chip' + (filter === id ? ' on' : '') + '" data-a="filter" data-id="' + id + '">' + (id !== 'all' ? avatar(id) : '') + esc(n) + '</button>').join('') + '</div>';
   if (filter === 'papa' && S.famKey) h += '<div class="row" style="gap:8px;margin-bottom:12px"><button class="btn sm full" data-a="planPdf">📄 PDF du planning</button><button class="btn sm sec full" data-a="planIcs">📲 Dans mon agenda</button></div>';
   const items = dayItems(selDay).filter(i => whoMatch(i.who, filter));
   h += '<div class="card"><h2>' + fmtLong(selDay) + (selDay === today() ? ' <span class="pill">Aujourd\'hui</span>' : '') + '</h2>';
@@ -894,7 +933,7 @@ function vMeds() {
   if (!S.meds.length) h += '<div class="empty">Ajoutez les traitements de chacun : nom, dose, heures de prise, durée.</div>';
   for (const m of S.meds) {
     const active = (!m.end || m.end >= D);
-    h += '<div class="item" data-a="editMed" data-id="' + m.id + '"><span class="dot" style="background:' + pcolor(m.person) + ';margin-top:6px"></span><div class="body"><b>' + esc(m.name) + '</b> ' + esc(m.dose || '') +
+    h += '<div class="item" data-a="editMed" data-id="' + m.id + '">' + avatar(m.person, 30) + '<div class="body"><b>' + esc(m.name) + '</b> ' + esc(m.dose || '') +
       '<div class="who">' + esc(pname(m.person)) + ' · ' + (m.times || []).join(', ') + (m.end ? ' · jusqu\'au ' + fmtShort(m.end) : '') + (active ? '' : ' · terminé') + '</div>' + (m.notes ? '<div class="mute">' + esc(m.notes) + '</div>' : '') + '</div></div>';
   }
   return h + '</div><div class="mute" style="text-align:center">Suivez toujours l\'ordonnance et l\'avis du médecin ou du pharmacien.</div>';
@@ -915,7 +954,7 @@ function vVac() {
   for (const p of S.people) {
     const vs = S.vaccines.filter(v => v.person === p.id).sort((a, b) => (b.done || '').localeCompare(a.done || ''));
     if (!vs.length) continue;
-    h += '<h3><span class="dot" style="background:' + p.color + '"></span> ' + esc(p.name) + '</h3>';
+    h += '<h3 class="row">' + avatar(p.id, 26) + ' ' + esc(p.name) + '</h3>';
     for (const v of vs.sort((a, b) => (a.next || a.done || '').localeCompare(b.next || b.done || ''))) h += '<div class="item' + (v.done ? ' done' : '') + '"><div class="body" data-a="editVac" data-id="' + v.id + '"><b>' + esc(v.name) + '</b><div class="who">' + (v.done ? 'Fait le ' + fmtShort(v.done) : 'Prévu le <b>' + (v.next ? fmtShort(v.next) + ' ' + v.next.slice(0, 4) : '?') + '</b>') + (v.notes ? ' · ' + esc(v.notes) : '') + '</div></div><button class="chk' + (v.done ? ' on' : '') + '" data-a="vacDone" data-id="' + v.id + '">' + (v.done ? '✓' : '') + '</button></div>';
   }
   const kidsB = S.people.filter(p => S.kids.includes(p.id));
@@ -967,8 +1006,8 @@ function vPlus() {
   if (sub === 'cr') return vCR();
   if (sub === 'meteo') return '<button class="btn sm sec" data-a="go" data-v="plus" style="margin-bottom:10px">← Retour</button>' + weatherCard(true);
   if (sub === 'reglages') return vReglages();
-  const tiles = [['prieres', '🕌', 'Prières & jeûne'], ['cr', '📝', 'Compte rendu'], ['photos', '📸', 'Photos'], ['anniv', '🎂', 'Anniversaires'], ['meteo', '🌦️', 'Météo Lattes'], ['reglages', '⚙️', 'Réglages'], ['ics', '📲', 'Ajouter à l\'agenda du téléphone'], ['backup', '💾', 'Sauvegarde']];
-  return '<div class="grid2">' + tiles.map(([k, i, l]) => '<button class="tile" data-a="' + (k === 'ics' ? 'icsMenu' : k === 'backup' ? 'backupMenu' : 'go') + '" data-v="plus" data-s="' + k + '"><span>' + i + '</span>' + l + '</button>').join('') + '</div><div class="credit">Rozane et Rochane Family · Créé par Rochdi MECHETI</div>';
+  const tiles = [['papa', '🛡️', 'Planning de ' + esc(pname('papa'))], ['prieres', '🕌', 'Prières & jeûne'], ['cr', '📝', 'Compte rendu'], ['photos', '📸', 'Photos'], ['anniv', '🎂', 'Anniversaires'], ['meteo', '🌦️', 'Météo Lattes'], ['reglages', '⚙️', 'Réglages'], ['ics', '📲', 'Ajouter à l\'agenda du téléphone'], ['backup', '💾', 'Sauvegarde']];
+  return '<div class="grid2">' + tiles.map(([k, i, l]) => '<button class="tile" data-a="' + (k === 'ics' ? 'icsMenu' : k === 'backup' ? 'backupMenu' : k === 'papa' ? 'papaAll' : 'go') + '" data-v="plus" data-s="' + k + '"><span>' + i + '</span>' + l + '</button>').join('') + '</div><div class="credit">Rozane et Rochane Family · Créé par Rochdi MECHETI</div>';
 }
 function back() { return '<button class="btn sm sec" data-a="go" data-v="plus" style="margin-bottom:10px">← Retour</button>'; }
 function vPrieres() {
@@ -1060,7 +1099,7 @@ function vReglages() {
   let h = back();
   h += '<div class="card"><h2>📱 Ce téléphone</h2><div class="row wrap">' + ['maman', 'papa'].map(id => '<button class="chip' + (S.owner === id ? ' on' : '') + '" data-a="setOwner" data-id="' + id + '">Téléphone de ' + esc(pname(id)) + '</button>').join('') + '</div></div>';
   h += '<div class="card"><h2>🔐 Confidentialité</h2><div class="mute" style="margin-bottom:10px">' + (S.pin ? 'Appli verrouillée par code (se reverrouille après 2 min hors de l\'appli).' : 'Aucun code : n\'importe qui avec le téléphone peut ouvrir l\'appli.') + '</div><div class="row wrap" style="gap:8px"><button class="btn sm" data-a="pinSet">' + (S.pin ? 'Changer le code' : 'Créer un code') + '</button>' + (S.pin ? '<button class="btn sm sec" data-a="pinOff">Retirer le code</button>' : '') + '<button class="btn sm sec" data-a="heroPick">📷 Photo de famille</button></div></div>';
-  h += '<div class="card"><h2>👨‍👩‍👧‍👧 Famille</h2>' + S.people.map(p => '<div class="item" data-a="editPerson" data-id="' + p.id + '"><span class="dot" style="background:' + p.color + ';margin-top:6px"></span><div class="body"><b>' + esc(p.name) + '</b><div class="who">' + (p.birth ? 'Né(e) le ' + fmtShort(p.birth) + ' ' + p.birth.slice(0, 4) : 'Date de naissance non renseignée') + '</div></div></div>').join('') + '</div>';
+  h += '<div class="card"><h2>👨‍👩‍👧‍👧 Famille</h2>' + S.people.map(p => '<div class="item"><button class="avbtn" data-a="avPick" data-id="' + p.id + '">' + avatar(p.id, 48) + '<i>📷</i></button><div class="body" data-a="editPerson" data-id="' + p.id + '"><b>' + esc(p.name) + '</b><div class="who">' + (p.birth ? 'Né(e) le ' + fmtShort(p.birth) + ' ' + p.birth.slice(0, 4) : 'Date de naissance non renseignée') + '</div></div></div>').join('') + '</div>';
   const sc = S.school;
   h += '<div class="card"><h2>🎒 Crèche / école (' + S.kids.map(k => esc(pname(k))).join(' & ') + ')</h2><div class="mute" style="margin-bottom:6px">Touchez un jour pour l\'activer, puis réglez les heures.</div>' + [1, 2, 3, 4, 5].map(d => { const x = sc.days[d]; return '<div class="row sp" style="padding:4px 0"><button class="chip' + (x.on ? ' on' : '') + '" data-a="schTog" data-d="' + d + '" style="min-width:76px">' + JOURS[d].slice(0, 3) + '.</button><span class="row" style="gap:4px"><input type="time" value="' + x.start + '" data-a-change="schT" data-d="' + d + '" data-k="start" style="width:88px;padding:6px;border:1px solid var(--line);border-radius:10px;background:var(--bg)"> → <input type="time" value="' + x.end + '" data-a-change="schT" data-d="' + d + '" data-k="end" style="width:88px;padding:6px;border:1px solid var(--line);border-radius:10px;background:var(--bg)"></span></div>'; }).join('');
   h += '<div class="row sp" style="margin-top:8px"><span class="mute">Rappel départ (min avant)</span><input type="number" value="' + sc.depart + '" data-a-change="schDep" style="width:70px;padding:6px;border:1px solid var(--line);border-radius:10px;background:var(--bg)"></div>';
@@ -1227,6 +1266,7 @@ const A = {
   },
   backupMenu() { backupMenu(); },
   syncPl() { S.planSig = ''; syncPlanning(true); },
+  papaAll() { filter = 'papa'; selDay = today(); weekStart = null; A.go({ v: 'planning' }); },
   planPdf() {
     let p = null; try { p = JSON.parse(localStorage.getItem('kaelumPlanPdf')); } catch (e) { }
     if (!p) { toast('PDF pas encore reçu : ouvre l\'appli avec internet'); syncPlanning(true); return; }
@@ -1246,7 +1286,7 @@ const A = {
     if (!evs.length) { toast('Aucun créneau à venir'); return; }
     shareOrDownload(new Blob([L.filter(Boolean).join('\r\n')], { type: 'text/calendar' }), 'planning-' + pname('papa').toLowerCase() + '.ics'); toast(evs.length + ' créneaux exportés');
   },
-  bkExport() { const o = { ...S, owner: '', _hero: heroSrc() || undefined }; shareOrDownload(new Blob([JSON.stringify(o)], { type: 'application/json' }), 'kaelum-family-' + today() + '.json'); },
+  bkExport() { const o = { ...S, owner: '', _hero: heroSrc() || undefined, _av: Object.fromEntries(S.people.map(p => [p.id, avSrc(p.id)]).filter(x => x[1])) }; shareOrDownload(new Blob([JSON.stringify(o)], { type: 'application/json' }), 'kaelum-family-' + today() + '.json'); },
   async bkExportP() {
     toast('Préparation…'); const ph = await dbAll(), photos = [];
     for (const p of ph) photos.push({ ...p, blob: await blobToB64(p.blob) });
@@ -1357,6 +1397,7 @@ document.addEventListener('change', async e => {
       const owner = S.owner; const photos = data._photos; delete data._photos;
       if (owner) data.owner = owner; if (S.pin && !data.pin) data.pin = S.pin; data.imported = true;
       if (data._hero) { try { localStorage.setItem('kaelumHero', data._hero); } catch (e2) { } delete data._hero; }
+      if (data._av) { for (const k in data._av) try { localStorage.setItem('kaelumAv_' + k, data._av[k]); } catch (e2) { } delete data._av; }
       localStorage.setItem(KEY, JSON.stringify(data)); load();
       if (photos) for (const p of photos) { const b = await (await fetch(p.blob)).blob(); await dbPut({ ...p, blob: b }); }
       closeSheet(); toast('✅ Données ouvertes'); render(); if (!S.owner) onboarding(); syncPlanning();
@@ -1425,14 +1466,52 @@ A.pinForgot = () => {
 };
 A.pinSet = () => pinSetup(false);
 A.pinOff = () => { if (confirm('Retirer le code de verrouillage ?')) { S.pin = ''; save(); render(); } };
-A.heroPick = () => { const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.onchange = async () => { const b = await compress(i.files[0]); localStorage.setItem('kaelumHero', await blobToB64(b)); toast('Photo de famille mise à jour'); render(); }; i.click(); };
+A.avPick = d => {
+  const p = person(d.id); if (!p) return;
+  const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*';
+  i.onchange = async () => {
+    const f = i.files[0]; if (!f) return;
+    const url = await squareThumb(f, 320); localStorage.setItem('kaelumAv_' + p.id, url);
+    toast('📷 Photo de ' + p.name + ' enregistrée'); render();
+  };
+  i.click();
+};
+function squareThumb(file, size) {
+  return new Promise(res => {
+    const img = new Image(), u = URL.createObjectURL(file);
+    img.onload = () => {
+      const m = Math.min(img.width, img.height), c = document.createElement('canvas'); c.width = c.height = size;
+      c.getContext('2d').drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, size, size);
+      URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = u;
+  });
+}
+A.heroPick = () => { const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.onchange = async () => { const b = await compress(i.files[0]); localStorage.setItem('kaelumHero', await blobToB64(b)); toast('📷 Photo de famille enregistrée'); render(); }; i.click(); };
 
 /* ---------- Démarrage ---------- */
 load();
 render();
 if (!S.owner) onboarding(); else lockNow();
 iosHint();
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { });
+/* Mise à jour automatique de l'appli */
+if ('serviceWorker' in navigator) {
+  const hadCtrl = !!navigator.serviceWorker.controller;
+  let reloading = false, pendingReload = false;
+  const doReload = () => { if (reloading) return; reloading = true; try { sessionStorage.setItem('kUpd', '1'); } catch (e) { } location.reload(); };
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadCtrl) return; // première installation : pas besoin de recharger
+    if ($('#modal').classList.contains('hidden') && !$('#lock')) doReload(); else pendingReload = true;
+  });
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
+    const check = () => { if (navigator.onLine) reg.update().catch(() => { }); };
+    check();
+    setInterval(check, 30 * 60 * 1000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { if (pendingReload && $('#modal').classList.contains('hidden') && !$('#lock')) doReload(); else check(); } });
+    window.addEventListener('online', check);
+  }).catch(() => { });
+  try { if (sessionStorage.getItem('kUpd')) { sessionStorage.removeItem('kUpd'); setTimeout(() => toast('✨ Appli mise à jour'), 800); } } catch (e) { }
+}
 fetchWeather();
 syncPlanning();
 setInterval(fetchWeather, 30 * 60 * 1000);
