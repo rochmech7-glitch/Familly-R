@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kaelum Family</title>
+<title>Rozane et Rochane Family</title>
 <meta name="description" content="Planning familial hors connexion — Créé par Rochdi MECHETI">
 <meta name="theme-color" content="#a33a25">
 <meta name="robots" content="noindex, nofollow, noarchive">
@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Kaelum Family">
+<meta name="apple-mobile-web-app-title" content="R&amp;R Family">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -225,11 +225,14 @@ table.pt tr.tod td{background:var(--soft);font-weight:800;color:var(--deep)}
 .lnk{background:none;border:0;color:#fff;opacity:.9;margin-top:22px;font-weight:800;text-decoration:underline}
 .lcred{margin-top:18px;font-size:12px;opacity:.75;font-family:var(--serif)}
 
+.brand b{font-size:17px;white-space:nowrap}
+.brand>div{min-width:0}
+
 </style>
 </head>
 <body>
 <header class="top">
-  <div class="brand"><img src="icon-192.png" alt=""><div><b>Kaelum Family</b><small id="hdrSub"></small></div></div>
+  <div class="brand"><img src="icon-192.png" alt=""><div><b>Rozane &amp; Rochane Family</b><small id="hdrSub"></small></div></div>
   <button class="iconbtn" data-a="go" data-v="plus" data-s="reglages" aria-label="Réglages">⚙️</button>
 </header>
 <div id="install" class="install hidden"></div>
@@ -335,7 +338,7 @@ if (typeof module !== 'undefined') module.exports = PrayerCalc;
 
 </script>
 <script>
-/* Kaelum Family — planning familial hors connexion
+/* Rozane et Rochane Family — planning familial hors connexion
    Créé par Rochdi MECHETI. Toutes les données restent sur le téléphone. */
 'use strict';
 
@@ -465,6 +468,25 @@ function importPlanning(pl) {
     S.events.push({ id: pl.id + '-' + i, src: pl.id, title, cat, person, date, time, end, rec: 'none', days: [], until: '', alarm: alarm < 0 ? 0 : alarm, noAlarm: alarm < 0, notes }));
   if (!S.imports.includes(pl.id)) S.imports.push(pl.id);
   return pl.items.length;
+}
+
+/* ---------- Planning chiffré en ligne (mise à jour automatique) ---------- */
+const b64d = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function syncPlanning(manual) {
+  if (!S.famKey || !navigator.onLine) { if (manual) toast(S.famKey ? 'Pas de connexion' : 'Ouvre d\'abord le fichier privé'); return; }
+  try {
+    const r = await fetch('plannings.enc?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) { if (manual) toast('Aucun planning en ligne'); return; }
+    const env = await r.json();
+    if (env.sig && env.sig === S.planSig) { if (manual) toast('Planning déjà à jour ✅'); return; }
+    const key = await crypto.subtle.importKey('raw', b64d(S.famKey), 'AES-GCM', false, ['decrypt']);
+    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64d(env.iv) }, key, b64d(env.data));
+    const data = JSON.parse(new TextDecoder().decode(plain));
+    let n = 0; for (const pl of data.plannings) n += importPlanning(pl);
+    if (data.pdf) { try { localStorage.setItem('kaelumPlanPdf', JSON.stringify(data.pdf)); } catch (e2) { } }
+    S.planSig = env.sig; S.planAt = Date.now(); save(); render();
+    toast('📅 Planning de ' + pname('papa') + ' mis à jour (' + n + ' créneaux)');
+  } catch (e) { if (manual) toast('Impossible de lire le planning en ligne'); }
 }
 
 /* ---------- Agenda du jour (moteur central) ---------- */
@@ -778,7 +800,7 @@ function vAccueil() {
   const D = today();
   const hr = new Date().getHours(), hello = hr < 5 ? 'Bonne nuit' : hr < 12 ? 'Bonjour' : hr < 18 ? 'Bon après-midi' : 'Bonsoir';
   const hero = heroSrc();
-  let h = '<div class="hero">' + (hero ? '<img src="' + hero + '" alt="La famille">' : '<div class="heroph">🏡</div>') + '<div><span class="greet">' + hello + ' ' + esc(pname(S.owner)) + ' ' + (hr >= 18 || hr < 5 ? '🌙' : '☀️') + '</span><b>Kaelum Family</b><span>' + S.people.map(p => esc(p.name)).join(' · ') + '</span></div></div>';
+  let h = '<div class="hero">' + (hero ? '<img src="' + hero + '" alt="La famille">' : '<div class="heroph">🏡</div>') + '<div><span class="greet">' + hello + ' ' + esc(pname(S.owner)) + ' ' + (hr >= 18 || hr < 5 ? '🌙' : '☀️') + '</span><b>Rozane et Rochane Family</b><span>' + S.people.map(p => esc(p.name)).join(' · ') + '</span></div></div>';
   if (!S.school.set) h += '<div class="banner warn row sp" data-a="go" data-v="plus" data-s="reglages"><span>🎒 Règle les horaires crèche / école et le réveil</span><span>›</span></div>';
   if (!('Notification' in window) || Notification.permission !== 'granted') h += '<div class="banner info row sp"><span>🔔 Active les notifications pour les rappels</span><button class="btn sm" data-a="askNotif">Activer</button></div>';
   const r = rainSoon(), rt = rainTomorrow();
@@ -801,7 +823,7 @@ function vAccueil() {
   h += weatherCard(false);
   const bd = nextBirthdays().slice(0, 2);
   if (bd.length) h += '<div class="card"><h2>🎂 Prochains anniversaires</h2>' + bd.map(b => '<div class="row sp" style="padding:4px 0"><span>' + esc(b.name) + '</span><span class="mute">' + fmtLong(b.when) + ' · dans ' + b.days + ' j</span></div>').join('') + '</div>';
-  h += '<div class="credit">Kaelum Family · Créé par Rochdi MECHETI</div>';
+  h += '<div class="credit">Rozane et Rochane Family · Créé par Rochdi MECHETI</div>';
   return h;
 }
 function mealsHTML(D) {
@@ -830,6 +852,7 @@ function vPlanning() {
   let h = '<div class="row sp" style="margin-bottom:8px"><button class="btn sm sec" data-a="wk" data-n="-7">◀</button><b>' + fmtShort(weekStart) + ' → ' + fmtShort(addDays(weekStart, 6)) + '</b><button class="btn sm sec" data-a="wk" data-n="7">▶</button></div>';
   h += '<div class="week">' + [0, 1, 2, 3, 4, 5, 6].map(i => { const D = addDays(weekStart, i), d = parseD(D); return '<button class="' + (D === selDay ? 'on ' : '') + (D === today() ? 'today' : '') + '" data-a="selDay" data-d="' + D + '">' + J3[d.getDay()] + '<b>' + d.getDate() + '</b></button>'; }).join('') + '</div>';
   h += '<div class="row wrap" style="margin-bottom:10px">' + [['all', 'Tous']].concat(S.people.map(p => [p.id, p.name])).map(([id, n]) => '<button class="chip' + (filter === id ? ' on' : '') + '" data-a="filter" data-id="' + id + '">' + (id !== 'all' ? '<span class="dot" style="background:' + pcolor(id) + '"></span>' : '') + esc(n) + '</button>').join('') + '</div>';
+  if (filter === 'papa' && S.famKey) h += '<div class="row" style="gap:8px;margin-bottom:12px"><button class="btn sm full" data-a="planPdf">📄 PDF du planning</button><button class="btn sm sec full" data-a="planIcs">📲 Dans mon agenda</button></div>';
   const items = dayItems(selDay).filter(i => whoMatch(i.who, filter));
   h += '<div class="card"><h2>' + fmtLong(selDay) + (selDay === today() ? ' <span class="pill">Aujourd\'hui</span>' : '') + '</h2>';
   h += items.length ? '<ul class="list">' + items.map(i => itemRow(i, selDay)).join('') + '</ul>' : '<div class="empty">Rien de prévu</div>';
@@ -940,7 +963,7 @@ function vPlus() {
   if (sub === 'meteo') return '<button class="btn sm sec" data-a="go" data-v="plus" style="margin-bottom:10px">← Retour</button>' + weatherCard(true);
   if (sub === 'reglages') return vReglages();
   const tiles = [['prieres', '🕌', 'Prières & jeûne'], ['cr', '📝', 'Compte rendu'], ['photos', '📸', 'Photos'], ['anniv', '🎂', 'Anniversaires'], ['meteo', '🌦️', 'Météo Lattes'], ['reglages', '⚙️', 'Réglages'], ['ics', '📲', 'Ajouter à l\'agenda du téléphone'], ['backup', '💾', 'Sauvegarde']];
-  return '<div class="grid2">' + tiles.map(([k, i, l]) => '<button class="tile" data-a="' + (k === 'ics' ? 'icsMenu' : k === 'backup' ? 'backupMenu' : 'go') + '" data-v="plus" data-s="' + k + '"><span>' + i + '</span>' + l + '</button>').join('') + '</div><div class="credit">Kaelum Family · Créé par Rochdi MECHETI</div>';
+  return '<div class="grid2">' + tiles.map(([k, i, l]) => '<button class="tile" data-a="' + (k === 'ics' ? 'icsMenu' : k === 'backup' ? 'backupMenu' : 'go') + '" data-v="plus" data-s="' + k + '"><span>' + i + '</span>' + l + '</button>').join('') + '</div><div class="credit">Rozane et Rochane Family · Créé par Rochdi MECHETI</div>';
 }
 function back() { return '<button class="btn sm sec" data-a="go" data-v="plus" style="margin-bottom:10px">← Retour</button>'; }
 function vPrieres() {
@@ -1048,8 +1071,9 @@ function vReglages() {
   h += '<div class="card"><h2>🔔 Rappels</h2><button class="btn sm" data-a="askNotif" style="margin-bottom:8px">Autoriser les notifications</button><button class="btn sm sec" data-a="testNotif" style="margin:0 0 8px 6px">Tester</button>' +
     [['events', 'Rendez-vous & activités'], ['meds', 'Traitements'], ['school', 'Crèche / école'], ['sleep', 'Coucher'], ['wake', 'Réveil'], ['prayer', 'Prières'], ['fast', 'Jeûne (shour / iftar)'], ['rain', 'Alerte pluie Lattes'], ['sound', 'Son']].map(([k, l]) => rowChk(l, 'notif.' + k, N[k])).join('') +
     '<div class="mute" style="margin-top:8px">Les rappels sonnent quand l\'appli est ouverte ou en arrière-plan récent. Pour des alarmes garanties même appli fermée : Plus → « Ajouter à l\'agenda du téléphone ».</div></div>';
+  h += '<div class="card"><h2>📅 Planning de ' + esc(pname('papa')) + '</h2><div class="mute" style="margin-bottom:8px">' + (S.famKey ? 'Mis à jour automatiquement depuis internet' + (S.planAt ? ' — dernière vérif. : ' + new Date(S.planAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : '') : 'Ouvre le fichier privé pour activer la mise à jour automatique') + '</div><div class="row wrap" style="gap:8px"><button class="btn sm" data-a="planPdf">📄 Télécharger le PDF</button><button class="btn sm sec" data-a="planIcs">📲 Ajouter à mon agenda</button><button class="btn sm sec" data-a="syncPl">🔄 Vérifier</button></div></div>';
   h += '<div class="card"><h2>💾 Données</h2><div class="row wrap" style="gap:8px"><button class="btn sm" data-a="backupMenu">Sauvegarder / restaurer</button><button class="btn sm bad" data-a="reset">Tout effacer</button></div></div>';
-  return h + '<div class="credit">Kaelum Family v1 · Créé par Rochdi MECHETI</div>';
+  return h + '<div class="credit">Rozane et Rochane Family v1 · Créé par Rochdi MECHETI</div>';
 }
 const inSt = 'width:110px;padding:6px;border:1px solid var(--line);border-radius:10px;background:var(--bg)';
 function rowIn(l, k, v, t) { return '<div class="row sp" style="padding:5px 0"><span>' + l + '</span><input type="' + t + '" value="' + esc(v) + '" data-a-change="set" data-k="' + k + '" style="' + inSt + '"></div>'; }
@@ -1066,7 +1090,7 @@ function icsMenu() {
 function icsEsc(s) { return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n'); }
 function icsUTC(D, hm) { const [y, m, d] = D.split('-').map(Number), [H, M] = hm.split(':').map(Number); const t = new Date(y, m - 1, d, H, M); return t.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
 function buildICS(cats, days) {
-  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kaelum Family//Rochdi Mecheti//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Kaelum Family'];
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Rozane et Rochane Family//Rochdi Mecheti//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Rozane et Rochane Family'];
   const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const map = { event: 'event', wakeEv: 'event', med: 'med', school: 'school', wake: 'wake', sleep: 'sleep', prayer: 'prayer', fast: 'fast', bday: 'bday', vaccin: 'bday', cycle: 'bday' };
   let n = 0;
@@ -1126,7 +1150,7 @@ const A = {
     Notification.requestPermission().then(p => { toast(p === 'granted' ? '✅ Notifications activées' : 'Notifications refusées (modifiable dans les réglages du téléphone)'); render(); });
     beep(1);
   },
-  testNotif() { notify('🔔 Test Kaelum Family', 'Les rappels fonctionnent !'); },
+  testNotif() { notify('🔔 Test Rozane et Rochane Family', 'Les rappels fonctionnent !'); },
   addEvent() { eventForm({ date: selDay, time: '', person: 'all', cat: 'rdv', rec: 'none', alarm: 15 }); },
   editEvent(d) { const ev = S.events.find(e => e.id === d.id); if (ev) eventForm(ev); },
   fastToday() { const D = today(); S.fast.skip = S.fast.skip.filter(x => x !== D); if (!isFast(D)) S.fast.dates.push(D); save(); render(); },
@@ -1197,6 +1221,26 @@ const A = {
     shareOrDownload(new Blob([r.text], { type: 'text/calendar' }), 'kaelum-family-agenda.ics'); toast(r.n + ' rappels créés');
   },
   backupMenu() { backupMenu(); },
+  syncPl() { S.planSig = ''; syncPlanning(true); },
+  planPdf() {
+    let p = null; try { p = JSON.parse(localStorage.getItem('kaelumPlanPdf')); } catch (e) { }
+    if (!p) { toast('PDF pas encore reçu : ouvre l\'appli avec internet'); syncPlanning(true); return; }
+    shareOrDownload(new Blob([b64d(p.b64)], { type: 'application/pdf' }), p.name);
+  },
+  planIcs() {
+    const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Rozane et Rochane Family//FR', 'X-WR-CALNAME:Planning ' + pname('papa')];
+    const f = x => x.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''), st = f(new Date());
+    const evs = S.events.filter(e => e.src && e.date >= today());
+    for (const e of evs) {
+      const [y, mo, d] = e.date.split('-').map(Number), [H, M] = e.time.split(':').map(Number), a = new Date(y, mo - 1, d, H, M);
+      const dur = e.end ? (((toMin(e.end) - toMin(e.time)) + 1440) % 1440 || 1440) : 60;
+      L.push('BEGIN:VEVENT', 'UID:' + e.id + '@kaelum-family', 'DTSTAMP:' + st, 'DTSTART:' + f(a), 'DTEND:' + f(new Date(a.getTime() + dur * 60000)),
+        'SUMMARY:' + icsEsc((CATS[e.cat] || CATS.autre)[0] + ' ' + e.title + (e.person === 'papa' ? '' : ' — ' + pname(e.person))), e.notes ? 'LOCATION:' + icsEsc(e.notes) : '', 'END:VEVENT');
+    }
+    L.push('END:VCALENDAR');
+    if (!evs.length) { toast('Aucun créneau à venir'); return; }
+    shareOrDownload(new Blob([L.filter(Boolean).join('\r\n')], { type: 'text/calendar' }), 'planning-' + pname('papa').toLowerCase() + '.ics'); toast(evs.length + ' créneaux exportés');
+  },
   bkExport() { const o = { ...S, owner: '', _hero: heroSrc() || undefined }; shareOrDownload(new Blob([JSON.stringify(o)], { type: 'application/json' }), 'kaelum-family-' + today() + '.json'); },
   async bkExportP() {
     toast('Préparation…'); const ph = await dbAll(), photos = [];
@@ -1310,7 +1354,7 @@ document.addEventListener('change', async e => {
       if (data._hero) { try { localStorage.setItem('kaelumHero', data._hero); } catch (e2) { } delete data._hero; }
       localStorage.setItem(KEY, JSON.stringify(data)); load();
       if (photos) for (const p of photos) { const b = await (await fetch(p.blob)).blob(); await dbPut({ ...p, blob: b }); }
-      closeSheet(); toast('✅ Données ouvertes'); render(); if (!S.owner) onboarding();
+      closeSheet(); toast('✅ Données ouvertes'); render(); if (!S.owner) onboarding(); syncPlanning();
     } catch (err) { toast('Fichier de sauvegarde invalide'); }
     return;
   }
@@ -1322,7 +1366,7 @@ document.addEventListener('input', e => { const el = e.target; if (el.id === 'jo
 let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault(); deferredPrompt = e;
-  const b = $('#install'); b.innerHTML = '<span>📲 Installer Kaelum Family sur le téléphone</span><button class="btn sm" id="instBtn">Installer</button>'; b.classList.remove('hidden');
+  const b = $('#install'); b.innerHTML = '<span>📲 Installer Rozane et Rochane Family sur le téléphone</span><button class="btn sm" id="instBtn">Installer</button>'; b.classList.remove('hidden');
   $('#instBtn').onclick = async () => { b.classList.add('hidden'); deferredPrompt.prompt(); deferredPrompt = null; };
 });
 function iosHint() {
@@ -1334,7 +1378,7 @@ function iosHint() {
 function onboarding() {
   const hero = heroSrc();
   openSheet('<div style="text-align:center">' + (hero ? '<img src="' + hero + '" style="width:100%;border-radius:999px 999px 22px 22px" alt="">' : '<div class="heroph" style="border-radius:999px 999px 22px 22px">🏡</div>') +
-    '<h2 style="margin-top:12px">Bienvenue dans Kaelum Family</h2><p class="mute">Le planning de la famille, sans connexion. Vos données restent uniquement sur ce téléphone.</p></div>' +
+    '<h2 style="margin-top:12px">Bienvenue dans Rozane et Rochane Family</h2><p class="mute">Le planning de la famille, sans connexion. Vos données restent uniquement sur ce téléphone.</p></div>' +
     (S.imported ? '' : '<label class="btn full" style="display:block;text-align:center">🔐 Ouvrir notre fichier privé<input type="file" accept=".json,application/json" id="bkIn" hidden></label><p class="mute" style="text-align:center;margin:8px 0">ou</p>') +
     '<p style="text-align:center;font-weight:800;margin:6px 0 8px">C\'est le téléphone de :</p>' +
     ['maman', 'papa'].map((id, i) => '<button class="btn ' + (i ? 'sec ' : '') + 'full" style="margin-top:8px" data-a="onb" data-id="' + id + '">' + esc(pname(id)) + '</button>').join('') +
@@ -1352,9 +1396,9 @@ function pinScreen(title, sub) {
   el.className = 'lock';
   el.innerHTML = '<div class="lockin"><img src="icon-192.png" alt=""><h2>' + title + '</h2><p>' + sub + '</p><div class="pdots">' + dots + '</div><div class="pad">' +
     [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0, '⌫'].map(k => k === '' ? '<span></span>' : '<button data-a="pinKey" data-k="' + k + '">' + k + '</button>').join('') + '</div>' +
-    (pinMode === 'unlock' ? '<button class="lnk" data-a="pinForgot">Code oublié ?</button>' : '<button class="lnk" data-a="pinSkip">' + (pinMode === 'set1' && S.pin ? 'Annuler' : 'Plus tard') + '</button>') + '<div class="lcred">Kaelum Family · Créé par Rochdi MECHETI</div></div>';
+    (pinMode === 'unlock' ? '<button class="lnk" data-a="pinForgot">Code oublié ?</button>' : '<button class="lnk" data-a="pinSkip">' + (pinMode === 'set1' && S.pin ? 'Annuler' : 'Plus tard') + '</button>') + '<div class="lcred">Rozane et Rochane Family · Créé par Rochdi MECHETI</div></div>';
 }
-function lockNow() { if (!S.pin) return; locked = true; pinMode = 'unlock'; pinBuf = ''; pinScreen('Kaelum Family', 'Entre ton code'); }
+function lockNow() { if (!S.pin) return; locked = true; pinMode = 'unlock'; pinBuf = ''; pinScreen('Rozane et Rochane Family', 'Entre ton code'); }
 function pinSetup(first) { pinMode = 'set1'; pinBuf = ''; pinScreen('Code secret', first ? 'Choisis un code à 4 chiffres pour protéger l\'appli' : 'Nouveau code à 4 chiffres'); }
 function unlockDone() { locked = false; const el = $('#lock'); if (el) el.remove(); }
 A.pinKey = async d => {
@@ -1363,7 +1407,7 @@ A.pinKey = async d => {
   if (pinBuf.length < 4) return pinScreen($('#lock h2').textContent, $('#lock p').textContent);
   const code = pinBuf; pinBuf = '';
   if (pinMode === 'unlock') {
-    if (await sha(code) === S.pin) { unlockDone(); tick(); } else { pinScreen('Kaelum Family', '❌ Code incorrect, réessaie'); if (navigator.vibrate) navigator.vibrate([80, 60, 80]); }
+    if (await sha(code) === S.pin) { unlockDone(); tick(); } else { pinScreen('Rozane et Rochane Family', '❌ Code incorrect, réessaie'); if (navigator.vibrate) navigator.vibrate([80, 60, 80]); }
   } else if (pinMode === 'set1') { pinFirst = code; pinMode = 'set2'; pinScreen('Code secret', 'Retape le code pour confirmer'); }
   else if (pinMode === 'set2') {
     if (code === pinFirst) { S.pin = await sha(code); save(); unlockDone(); toast('🔐 Code enregistré'); if (view === 'plus') render(); A.askNotif(); }
@@ -1385,11 +1429,13 @@ if (!S.owner) onboarding(); else lockNow();
 iosHint();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { });
 fetchWeather();
+syncPlanning();
 setInterval(fetchWeather, 30 * 60 * 1000);
+setInterval(syncPlanning, 60 * 60 * 1000);
 setInterval(tick, 20000); setTimeout(tick, 1500);
 setInterval(() => { if (view === 'accueil' && $('#modal').classList.contains('hidden')) render(); }, 60000);
-window.addEventListener('online', fetchWeather);
-document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (hiddenAt && Date.now() - hiddenAt > 120000 && !locked) lockNow(); if (!document.hidden) { tick(); fetchWeather(); if ($('#modal').classList.contains('hidden')) render(); } });
+window.addEventListener('online', () => { fetchWeather(); syncPlanning(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (hiddenAt && Date.now() - hiddenAt > 120000 && !locked) lockNow(); if (!document.hidden) { tick(); fetchWeather(); syncPlanning(); if ($('#modal').classList.contains('hidden')) render(); } });
 // Nettoyage des anciens journaux de rappels
 for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith('kaelumFired_') && k < 'kaelumFired_' + addDays(today(), -3)) localStorage.removeItem(k); }
 

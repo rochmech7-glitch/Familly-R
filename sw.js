@@ -1,5 +1,5 @@
-// Kaelum Family — service worker (fonctionnement hors connexion)
-const CACHE = 'kaelum-family-v4';
+// Rozane et Rochane Family — service worker (fonctionnement hors connexion)
+const CACHE = 'kaelum-family-v6';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -12,6 +12,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return; // météo : gérée par l'appli
+  if (url.pathname.endsWith('plannings.enc')) return; // planning : toujours depuis internet
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request).then(res => {
       const copy = res.clone();
