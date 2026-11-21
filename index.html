@@ -240,6 +240,65 @@ table.pt tr.tod td{background:var(--soft);font-weight:800;color:var(--deep)}
 .avrow small{font-size:11px;font-weight:800;opacity:.95;white-space:nowrap}
 .avrow .av{border-width:3px}
 
+/* Alarme plein écran */
+.alarmfs{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;
+  background:var(--zellige),radial-gradient(circle at 50% 30%,#e9503a 0%,#a3221c 45%,#3a0f12 100%);animation:apulse 1.3s infinite}
+@keyframes apulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
+.afin{padding:28px;max-width:420px;width:100%}
+.aring{font-size:110px;animation:ring .5s infinite;line-height:1}
+.atime{font:700 64px var(--serif);margin:8px 0 4px}
+.alarmfs h2{font:700 30px var(--serif);margin:6px 0}
+.alarmfs p{font-size:19px;font-weight:700;opacity:.95;margin:6px 0}
+.awho{display:flex;align-items:center;justify-content:center;gap:8px}
+.abtn{display:block;width:100%;margin-top:26px;border:0;border-radius:22px;padding:22px;background:#fff;color:#8e2a22;font:800 24px var(--sans);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.abtn2{display:block;width:100%;margin-top:12px;border:2px solid rgba(255,255,255,.6);border-radius:18px;padding:14px;background:transparent;color:#fff;font:800 17px var(--sans)}
+
+/* ---- Accueil convivial ---- */
+html,body{overflow-x:hidden}
+.item .body,.cb{overflow-wrap:anywhere}
+.hero2{position:relative;border-radius:26px;overflow:hidden;box-shadow:var(--sh);margin-bottom:12px;background:linear-gradient(160deg,var(--saf),var(--pri))}
+.hero2 img{display:block;width:100%;height:210px;object-fit:cover;object-position:center 30%}
+.hero2 .noph{height:150px;display:flex;align-items:center;justify-content:center;gap:12px;color:#fff;font-size:40px;background:var(--zellige),linear-gradient(160deg,var(--saf),var(--pri))}
+.hero2 .noph span{font:800 15px var(--sans);text-align:left}
+.hcap{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 12px;color:#fff;background:linear-gradient(transparent,rgba(60,15,10,.72))}
+.hcap span{display:block;font:700 15px var(--serif);opacity:.95}.hcap b{font:700 21px var(--serif)}
+.fam{display:flex;justify-content:space-around;margin:0 0 14px}
+.fam button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:0;min-width:0}
+.fam small{font-size:12px;font-weight:800;color:var(--mute);max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fam .av{border-width:3px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.quick button{position:relative;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:12px 2px 10px;font-size:12px;font-weight:800;color:var(--ink);box-shadow:var(--sh);min-width:0}
+.quick span{display:block;font-size:26px;margin-bottom:4px}
+.quick i{position:absolute;top:6px;right:8px;font-style:normal;background:var(--pri);color:#fff;border-radius:999px;font-size:11px;min-width:20px;padding:2px 5px}
+.pillbar{border-radius:16px;padding:11px 14px;margin-bottom:10px;font-weight:700;font-size:14px}
+.pillbar.rain{background:#dbeaf4;color:#1f4f73}
+.pillbar.soft{background:var(--card);border:1px solid var(--line)}
+.todo{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.todo a{background:#fff0d6;color:#7a4a08;border:1px solid #f6dcaa;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:800}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px 14px;box-shadow:var(--sh);min-width:0}
+.mini small{display:block;font-size:12px;font-weight:800;color:var(--mute)}
+.mini b{display:block;font:700 19px var(--serif);color:var(--deep);margin:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini span{font-size:12px;font-weight:700;color:var(--mute)}
+@media (prefers-color-scheme: dark){.mini b{color:#ffc9a8}.todo a{background:#3b2a14;color:#ffd596;border-color:#55391a}}
+.crow{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}
+.crow:last-child{border-bottom:0}
+.crow.done .cb{opacity:.45;text-decoration:line-through}
+.ct{min-width:46px;font-weight:800;font-size:14px;color:var(--deep);font-variant-numeric:tabular-nums;line-height:1.25}
+.ct b{font-size:12px}
+.cb{flex:1;min-width:0;font-weight:700;font-size:15px}
+.cb small{display:block;font-size:12px;color:var(--mute);font-weight:700}
+.cw{display:flex;flex:none}
+.card h2 .av{margin-right:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;font-weight:700}
+.menu3{display:grid;grid-template-columns:1fr;gap:8px}
+.menu3 div{background:var(--bg2);border-radius:14px;padding:9px 12px;font-weight:700;font-size:14px}
+.menu3 small{display:block;font-size:12px;color:var(--pri);font-weight:800}
+.card{padding:14px}
+.card h2{font-size:17px}
+.hero2 .noph{height:190px;align-items:flex-start;padding-top:34px}
+
 </style>
 </head>
 <body>
@@ -252,7 +311,7 @@ table.pt tr.tod td{background:var(--soft);font-weight:800;color:var(--deep)}
 <nav class="tabs">
   <button data-a="go" data-v="accueil"><span>🏠</span>Accueil</button>
   <button data-a="go" data-v="planning"><span>📅</span>Planning</button>
-  <button data-a="go" data-v="repas"><span>🍽️</span>Repas</button>
+  <button data-a="go" data-v="repas"><span>🛒</span>Courses</button>
   <button data-a="go" data-v="sante"><span>💊</span>Santé</button>
   <button data-a="go" data-v="plus"><span>☰</span>Plus</button>
 </nav>
@@ -371,7 +430,8 @@ const JOURS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'S
 const J3 = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 const fmtLong = s => { const d = parseD(s); return JOURS[d.getDay()] + ' ' + d.getDate() + ' ' + MOIS[d.getMonth()]; };
-const fmtShort = s => { const d = parseD(s); return d.getDate() + ' ' + MOIS[d.getMonth()].slice(0, 4) + (MOIS[d.getMonth()].length > 4 ? '.' : ''); };
+const MOISC = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const fmtShort = s => { const d = parseD(s); return d.getDate() + ' ' + MOISC[d.getMonth()]; };
 const hash = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
 
 /* ---------- Données ---------- */
@@ -402,7 +462,7 @@ function defaults() {
     fast: { person: 'maman', weekdays: [], dates: [], skip: [] },
     menus: {}, menuSeed: {},
     cycle: { periods: [], logs: {}, len: 28, plen: 5, show: true, pause: true },
-    journal: {},
+    journal: {}, courses: [],
     notif: { events: true, meds: true, school: true, sleep: true, wake: true, prayer: true, fast: true, rain: true, sound: true }
   };
 }
@@ -419,7 +479,7 @@ function load() {
     S.nm2 = true;
   }
 }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('⚠️ Mémoire du téléphone pleine'); } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('⚠️ Mémoire du téléphone pleine'); } if (typeof schedulePush === 'function') schedulePush(); }
 const person = id => S.people.find(p => p.id === id);
 const pname = id => id === 'all' ? 'Toute la famille' : id === 'kids' ? 'Les filles' : (person(id)?.name || '');
 const pcolor = id => person(id)?.color || '#4b2fb0';
@@ -726,6 +786,7 @@ function tick() {
     const at = toMin(it.time) - it.alarm + 1440;
     if (at < 1440 && now >= at && now <= at + 2 && !fired[it.key]) { firedSet(it.key); notify(it.title, (it.alarm >= 1440 ? 'Demain à ' : 'Dans ' + it.alarm + ' min, à ') + it.time + ' — ' + pname(it.who)); }
   }
+  checkRdvAlarms();
   checkRain();
 }
 
@@ -828,47 +889,74 @@ function weatherCard(full) {
   return h + '</div>';
 }
 function vAccueil() {
-  const D = today();
+  const D = today(), now = toMin(nowHM());
   const hr = new Date().getHours(), hello = hr < 5 ? 'Bonne nuit' : hr < 12 ? 'Bonjour' : hr < 18 ? 'Bon après-midi' : 'Bonsoir';
   const hero = heroSrc();
-  let h = '<div class="hero">' + (hero ? '<img src="' + hero + '" alt="La famille" data-a="heroPick">' : '<div class="heroph" data-a="heroPick" style="cursor:pointer"><span style="display:block;text-align:center;font-size:64px">📷<small style="display:block;font:800 16px var(--sans);color:var(--deep);margin-top:8px">Touchez pour ajouter<br>notre photo de famille</small></span></div>') + '<div><span class="greet">' + hello + ' ' + esc(pname(S.owner)) + ' ' + (hr >= 18 || hr < 5 ? '🌙' : '☀️') + '</span><b>Rozane et Rochane Family</b>' + (S.people.some(p => avSrc(p.id)) ? '<span class="avrow">' + S.people.map(p => '<span data-a="avPick" data-id="' + p.id + '">' + avatar(p.id, 50) + '<small>' + esc(p.name) + '</small></span>').join('') + '</span>' : '<span>' + S.people.map(p => esc(p.name)).join(' · ') + '</span>') + '</div></div>';
-  h += papaCard();
-  if (!S.school.set) h += '<div class="banner warn row sp" data-a="go" data-v="plus" data-s="reglages"><span>🎒 Règle les horaires crèche / école et le réveil</span><span>›</span></div>';
-  if (!('Notification' in window) || Notification.permission !== 'granted') h += '<div class="banner info row sp"><span>🔔 Active les notifications pour les rappels</span><button class="btn sm" data-a="askNotif">Activer</button></div>';
-  const r = rainSoon(), rt = rainTomorrow();
-  if (r) h += '<div class="banner rain">🌧️ ' + (r.now ? 'Il pleut / va pleuvoir maintenant à Lattes' : 'Pluie prévue vers ' + r.hour + ' à Lattes') + (r.prob != null ? ' (' + r.prob + ' %)' : '') + ' — prends un parapluie !</div>';
-  else if (rt) h += '<div class="banner rain">🌧️ Demain : pluie probable à Lattes (' + rt.prob + ' %)</div>';
-  if (isFast(D) || S.fast.person) h += fastCard(D);
-  if (S.prayer.show) h += prayerCard(D);
-  const items = dayItems(D).filter(i => i.cat !== 'prayer');
-  const now = toMin(nowHM());
-  const upcoming = items.filter(i => !i.time || toMin(i.time) >= now - 30 || (i.cat === 'med' && !medTaken(D, i.med.id, i.med.t)));
-  h += '<div class="card"><h2>📋 Aujourd\'hui <button class="btn sm sec" data-a="go" data-v="planning">Tout voir</button></h2>';
-  h += upcoming.length ? '<ul class="list">' + upcoming.map(i => itemRow(i, D)).join('') + '</ul>' : '<div class="empty">Rien de prévu pour la suite de la journée 🎉</div>';
+  // En-tête photo compact
+  let h = '<div class="hero2" data-a="heroPick">' + (hero ? '<img src="' + hero + '" alt="">' : '<div class="noph">📷 <span>Touchez pour ajouter<br>votre photo de famille</span></div>') +
+    '<div class="hcap"><span>' + hello + ' ' + esc(pname(S.owner)) + ' ' + (hr >= 18 || hr < 5 ? '🌙' : '☀️') + '</span><b>' + fmtLong(D) + '</b></div></div>';
+  h += '<div class="fam">' + S.people.map(p => '<button data-a="filterGo" data-id="' + p.id + '">' + avatar(p.id, 54) + '<small>' + esc(p.name) + '</small></button>').join('') + '</div>';
+  // Actions rapides
+  const nC = (S.courses || []).filter(c => !c.done).length;
+  h += '<div class="quick">' +
+    '<button data-a="addEvent"><span>📅</span>Rendez-vous</button>' +
+    '<button data-a="go" data-v="repas"><span>🛒</span>Courses' + (nC ? '<i>' + nC + '</i>' : '') + '</button>' +
+    '<button data-a="addMed"><span>💊</span>Traitement</button>' +
+    '<button data-a="go" data-v="plus" data-s="prieres"><span>🕌</span>Prières</button></div>';
+  // Alertes regroupées
+  const r = rainSoon(), rt = rainTomorrow(), todo = [];
+  if (r) h += '<div class="pillbar rain">🌧️ ' + (r.now ? 'Pluie maintenant à Lattes' : 'Pluie vers ' + r.hour) + ' — parapluie !</div>';
+  else if (rt) h += '<div class="pillbar rain">🌧️ Demain : pluie probable (' + rt.prob + ' %)</div>';
+  if (!('Notification' in window) || Notification.permission !== 'granted') todo.push('<a data-a="askNotif">🔔 Activer les rappels</a>');
+  if (!S.sync || !S.sync.base) todo.push('<a data-a="go" data-v="plus" data-s="reglages">🔗 Lier nos téléphones</a>');
+  if (!S.school.set) todo.push('<a data-a="go" data-v="plus" data-s="reglages">🎒 Horaires crèche</a>');
+  if (todo.length) h += '<div class="todo">' + todo.join('') + '</div>';
+  // Maintenant : prière + météo
+  const p = prayers(D), ks = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'], nk = ks.find(k => toMin(p[k]) > now);
+  const fast = isFast(D) && !wifeInPeriod(D);
+  h += '<div class="duo">';
+  h += '<div class="mini" data-a="go" data-v="plus" data-s="prieres"><small>' + (nk ? 'Prochaine prière' : 'Demain') + '</small><b>' + (nk ? PNAMES[nk].replace(/ \(.*\)/, '') + ' ' + p[nk] : 'Sobh ' + prayers(addDays(D, 1)).fajr) + '</b>' +
+    (fast ? '<span>🌙 Jeûne · rupture ' + p.maghrib + '</span>' : '<span>Maghreb ' + p.maghrib + '</span>') + '</div>';
+  if (WX && WX.current) { const w = WMO(WX.current.weather_code); h += '<div class="mini" data-a="go" data-v="plus" data-s="meteo"><small>Lattes</small><b>' + w[0] + ' ' + Math.round(WX.current.temperature_2m) + '°C</b><span>' + w[1] + '</span></div>'; }
+  else h += '<div class="mini"><small>Lattes</small><b>🌦️ —</b><span>Météo dès qu\'il y a internet</span></div>';
   h += '</div>';
-  if (cycleVisible()) {
+  // Aujourd'hui (fusion de tout, compact)
+  const items = dayItems(D).filter(i => i.cat !== 'prayer' && (!i.time || toMin(i.time) >= now - 30 || (i.ev && i.ev.end && (toMin(i.ev.end) > now || toMin(i.ev.end) < toMin(i.ev.time))) || (i.cat === 'med' && !medTaken(D, i.med.id, i.med.t))));
+  h += '<div class="card"><h2>📋 Aujourd\'hui <button class="btn sm sec" data-a="go" data-v="planning">Planning</button></h2>';
+  h += items.length ? items.slice(0, 6).map(i => compactRow(i, D)).join('') + (items.length > 6 ? '<div class="mute" style="text-align:center;margin-top:6px">+ ' + (items.length - 6) + ' autres</div>' : '') : '<div class="empty">Rien d\'autre aujourd\'hui 🎉</div>';
+  h += '</div>';
+  // Planning de Papa (prochains jours)
+  h += papaCard();
+  // Courses aperçu
+  if (nC) h += '<div class="card" data-a="go" data-v="repas"><h2>🛒 À acheter <span class="pill">' + nC + '</span></h2><div class="chips">' + S.courses.filter(c => !c.done).slice(0, 10).map(c => '<span>' + esc(c.txt) + '</span>').join('') + '</div></div>';
+  // Menu du jour compact
+  h += '<div class="card"><h2>🍽️ Au menu <button class="btn sm sec" data-a="menusGo">Semaine</button></h2><div class="menu3">' +
+    SLOTS.filter(x => x[0] !== 'collation').map(([k, l]) => '<div data-a="editMeal" data-d="' + D + '" data-s="' + k + '"><small>' + l + '</small>' + esc(menuFor(D, k)) + '</div>').join('') + '</div></div>';
+  if (cycleVisible() && isOwnerWife()) {
     const ci = cycleInfo();
-    if (ci.last) h += '<div class="card" data-a="go" data-v="sante" data-h="cycle"><div class="row sp"><b>🌸 Cycle de ' + esc(pname('maman')) + '</b><span class="pill">Jour ' + ci.day + '</span></div><div class="mute">' +
-      (ci.inPeriod ? 'Règles en cours' : 'Prochaines règles : ' + fmtLong(ci.next) + ' (dans ' + diffDays(D, ci.next) + ' j)') + '</div></div>';
+    if (ci.last) h += '<div class="pillbar soft" data-a="go" data-v="sante" data-h="cycle">🌸 Cycle jour ' + ci.day + ' · ' + (ci.inPeriod ? 'règles en cours' : 'prochaines règles dans ' + diffDays(D, ci.next) + ' j') + '</div>';
   }
-  h += '<div class="card"><h2>🍽️ Menu du jour <button class="btn sm sec" data-a="go" data-v="repas">Semaine</button></h2>' + mealsHTML(D) + '</div>';
-  h += weatherCard(false);
-  const bd = nextBirthdays().slice(0, 2);
-  if (bd.length) h += '<div class="card"><h2>🎂 Prochains anniversaires</h2>' + bd.map(b => '<div class="row sp" style="padding:4px 0"><span>' + esc(b.name) + '</span><span class="mute">' + fmtLong(b.when) + ' · dans ' + b.days + ' j</span></div>').join('') + '</div>';
+  const bd = nextBirthdays().filter(b => b.days <= 30).slice(0, 2);
+  for (const b of bd) h += '<div class="pillbar soft">🎂 ' + esc(b.name) + (b.days === 0 ? ' — c\'est aujourd\'hui ! 🎉' : ' — dans ' + b.days + ' j (' + fmtShort(b.when) + ')') + '</div>';
   h += '<div class="credit">Rozane et Rochane Family · Créé par Rochdi MECHETI</div>';
   return h;
+}
+function compactRow(it, D) {
+  const done = it.cat === 'med' && medTaken(D, it.med.id, it.med.t);
+  return '<div class="crow' + (done ? ' done' : '') + '"><div class="ct">' + (it.time || '•') + '</div><div class="cb"' + (it.ev && !it.ev.src ? ' data-a="editEvent" data-id="' + it.ev.id + '"' : '') + '>' + esc(it.title) + (it.ev && it.ev.end ? ' <small>→ ' + it.ev.end + '</small>' : '') + '</div><div class="cw">' + whoMark(it.who) + '</div>' +
+    (it.cat === 'med' ? '<button class="chk' + (done ? ' on' : '') + '" data-a="medTake" data-d="' + D + '" data-id="' + it.med.id + '" data-t="' + it.med.t + '">' + (done ? '✓' : '') + '</button>' : '') + '</div>';
 }
 function papaCard() {
   const D = today(), now = nowHM();
   const evs = S.events.filter(e => e.src && (e.date > D || (e.date === D && ((e.end && toMin(e.end) < toMin(e.time)) || (e.end || e.time) >= now))))
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
   const yest = S.events.find(e => e.src && e.date === addDays(D, -1) && e.end && toMin(e.end) < toMin(e.time) && now < e.end);
-  let h = '<div class="card papa"><h2>🛡️ Planning de ' + esc(pname('papa')) + ' <button class="btn sm sec" data-a="papaAll">Tout voir</button></h2>';
+  let h = '<div class="card papa"><h2>' + avatar('papa', 30) + ' Planning de ' + esc(pname('papa')) + ' <button class="btn sm sec" data-a="papaAll">Tout</button></h2>';
   if (!S.events.some(e => e.src)) return h + '<div class="empty">' + (navigator.onLine ? 'Chargement du planning…' : 'Connecte-toi à internet une fois pour recevoir le planning') + '</div></div>';
   if (yest) h += '<div class="banner info" style="margin-bottom:8px">🌙 En poste de nuit jusqu\'à ' + yest.end + '</div>';
   const lab = d => d === D ? 'Auj.' : d === addDays(D, 1) ? 'Demain' : J3[parseD(d).getDay()] + ' ' + parseD(d).getDate();
-  h += evs.length ? evs.slice(0, 5).map(e => '<div class="item"><div class="t" style="min-width:86px;font-size:13px">' + lab(e.date) + '<div class="mute" style="font-weight:700">' + e.time + (e.end ? '–' + e.end : '') + '</div></div><div class="body">' + (CATS[e.cat] || CATS.autre)[0] + ' ' + esc(e.title) + (e.notes ? '<div class="who">' + esc(e.notes) + '</div>' : '') + '</div></div>').join('') : '<div class="empty">Plus rien de prévu ce mois-ci</div>';
-  return h + '<div class="row" style="gap:8px;margin-top:10px"><button class="btn sm full" data-a="planPdf">📄 PDF</button><button class="btn sm sec full" data-a="planIcs">📲 Mon agenda</button></div></div>';
+  h += evs.length ? evs.slice(0, 4).map(e => '<div class="crow"><div class="ct" style="min-width:66px"><b>' + lab(e.date) + '</b><br>' + e.time + '</div><div class="cb">' + (CATS[e.cat] || CATS.autre)[0] + ' ' + esc(e.title.replace(/ — .*/, '')) + '<small>' + e.time + (e.end ? ' → ' + e.end : '') + (e.notes && e.notes.includes('Pérols') ? ' · ' + esc(e.notes.split(',')[0]) : '') + '</small></div></div>').join('') : '<div class="empty">Plus rien de prévu ce mois-ci</div>';
+  return h + '<div class="row" style="gap:8px;margin-top:10px"><button class="btn sm sec full" data-a="planPdf">📄 PDF</button><button class="btn sm sec full" data-a="planIcs">📲 Mon agenda</button></div></div>';
 }
 function mealsHTML(D) {
   let h = '';
@@ -907,7 +995,9 @@ function vPlanning() {
 }
 function vRepas() {
   const s = today();
-  let h = '<div class="banner info">Touchez un plat pour le modifier. « Changer » propose un autre menu pour la journée.</div>';
+  let h = '<div class="seg"><button class="' + (repasTab === 'courses' ? 'on' : '') + '" data-a="rtab" data-t="courses">🛒 Courses</button><button class="' + (repasTab === 'menus' ? 'on' : '') + '" data-a="rtab" data-t="menus">🍽️ Menus</button></div>';
+  if (repasTab === 'courses') return h + vCourses();
+  h += '<div class="banner info">Touchez un plat pour le modifier. « Changer » propose un autre menu pour la journée.</div>';
   h += '<div class="banner warn">👶 Pour les petites : pas de miel avant 1 an, pas de fruits à coque entiers (cacahuètes, amandes…) avant 5 ans, aliments mixés ou écrasés selon l\'âge. Demandez conseil au pédiatre pour la diversification.</div>';
   for (let i = 0; i < 7; i++) {
     const D = addDays(s, i);
@@ -1116,6 +1206,7 @@ function vReglages() {
     [['events', 'Rendez-vous & activités'], ['meds', 'Traitements'], ['school', 'Crèche / école'], ['sleep', 'Coucher'], ['wake', 'Réveil'], ['prayer', 'Prières'], ['fast', 'Jeûne (shour / iftar)'], ['rain', 'Alerte pluie Lattes'], ['sound', 'Son']].map(([k, l]) => rowChk(l, 'notif.' + k, N[k])).join('') +
     '<div class="mute" style="margin-top:8px">Les rappels sonnent quand l\'appli est ouverte ou en arrière-plan récent. Pour des alarmes garanties même appli fermée : Plus → « Ajouter à l\'agenda du téléphone ».</div></div>';
   h += '<div class="card"><h2>📅 Planning de ' + esc(pname('papa')) + '</h2><div class="mute" style="margin-bottom:8px">' + (S.famKey ? 'Mis à jour automatiquement depuis internet' + (S.planAt ? ' — dernière vérif. : ' + new Date(S.planAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : '') : 'Ouvre le fichier privé pour activer la mise à jour automatique') + '</div><div class="row wrap" style="gap:8px"><button class="btn sm" data-a="planPdf">📄 Télécharger le PDF</button><button class="btn sm sec" data-a="planIcs">📲 Ajouter à mon agenda</button><button class="btn sm sec" data-a="syncPl">🔄 Vérifier</button></div></div>';
+  h += syncCard();
   h += '<div class="card"><h2>💾 Données</h2><div class="row wrap" style="gap:8px"><button class="btn sm" data-a="backupMenu">Sauvegarder / restaurer</button><button class="btn sm bad" data-a="reset">Tout effacer</button></div></div>';
   return h + '<div class="credit">Rozane et Rochane Family v1 · Créé par Rochdi MECHETI</div>';
 }
@@ -1489,8 +1580,322 @@ function squareThumb(file, size) {
 }
 A.heroPick = () => { const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.onchange = async () => { const b = await compress(i.files[0]); localStorage.setItem('kaelumHero', await blobToB64(b)); toast('📷 Photo de famille enregistrée'); render(); }; i.click(); };
 
+/* ======================================================================
+   LISTE DE COURSES
+   ====================================================================== */
+let repasTab = 'courses';
+const COURSE_CATS = [
+  ['fruits', '🍎 Fruits & légumes', /pomme|banane|orange|clémentine|clementine|citron|fraise|raisin|poire|kiwi|mangue|ananas|melon|pastèque|tomate|salade|carotte|courgette|aubergine|poivron|oignon|ail|pomme de terre|patate|concombre|brocoli|chou|épinard|epinard|haricot vert|persil|coriandre|menthe|avocat|potiron|navet|légume|legume|fruit|dattes?/i],
+  ['frais', '🥛 Frais & laitier', /lait(?! bébé| bebe| infantile| 1er| 2e| 2ème| croissance)|yaourt|yogourt|fromage|beurre|crème|creme|œuf|oeuf|petit-suisse|petits suisses|lben|raib|kiri|vache qui rit|camembert|mozzarella|emmental/i],
+  ['viande', '🍗 Viande & poisson', /poulet|viande|bœuf|boeuf|agneau|mouton|dinde|steak|haché|hache|merguez|kefta|poisson|saumon|thon|sardine|crevette|cabillaud|escalope/i],
+  ['bebe', '👶 Bébé', /couche|lingette|lait bébé|lait bebe|lait infantile|lait 1er|lait 2e|lait 2ème|lait croissance|petit pot|compote bébé|biberon|tétine|tetine|liniment|sérum phy|serum phy|blédine|bledine|céréales bébé/i],
+  ['boulangerie', '🥖 Pain & petit-déj', /pain|baguette|brioche|croissant|biscotte|céréale|cereale|confiture|miel|nutella|pâte à tartiner|gâteau|gateau|biscuit|madeleine/i],
+  ['epicerie', '🥫 Épicerie', /riz|pâtes|pates|semoule|couscous|farine|sucre|sel|poivre|huile|vinaigre|épice|epice|cumin|lentille|pois chiche|haricot|conserve|sauce|ketchup|mayonnaise|moutarde|thé|the |café|cafe|chocolat|levure|frik|vermicelle|olive/i],
+  ['boissons', '🧃 Boissons', /eau|jus|soda|coca|sirop|lait de coco|boisson/i],
+  ['hygiene', '🧴 Hygiène & maison', /savon|shampo|gel douche|dentifrice|brosse|déodorant|deodorant|papier toilette|pq|essuie|sopalin|lessive|adoucissant|liquide vaisselle|éponge|eponge|javel|sac poubelle|coton|serviette|mouchoir/i],
+  ['autre', '📦 Autre', /.*/]
+];
+const COURSE_SUGG = ['Lait', 'Pain', 'Œufs', 'Couches', 'Lingettes', 'Lait bébé', 'Bananes', 'Pommes', 'Yaourts', 'Poulet', 'Riz', 'Pâtes', 'Tomates', 'Oignons', 'Fromage', 'Eau', 'Huile d\'olive', 'Semoule', 'Dattes', 'Papier toilette'];
+const courseCat = t => (COURSE_CATS.find(c => c[2].test(t)) || COURSE_CATS[COURSE_CATS.length - 1])[0];
+function vCourses() {
+  const L = S.courses || [];
+  const todo = L.filter(c => !c.done), done = L.filter(c => c.done);
+  let h = '<div class="card"><h2>🛒 Liste de courses <span class="pill">' + todo.length + ' à acheter</span></h2>' +
+    '<div class="row" style="gap:8px"><input id="cIn" placeholder="Ex. lait, 2 baguettes, couches…" style="flex:1;border:1.5px solid var(--line);border-radius:14px;padding:12px;background:var(--bg)"><button class="btn" data-a="cAdd">Ajouter</button></div>' +
+    '<div class="row wrap" style="gap:6px;margin-top:10px">' + COURSE_SUGG.filter(s => !todo.some(c => c.txt.toLowerCase() === s.toLowerCase())).slice(0, 10).map(s => '<button class="chip" data-a="cSugg" data-t="' + esc(s) + '">+ ' + esc(s) + '</button>').join('') + '</div></div>';
+  if (!L.length) return h + '<div class="empty">La liste est vide. Ajoute ce qu\'il faut acheter : ' + (S.sync && S.sync.base ? 'l\'autre téléphone le reçoit en direct.' : 'pense à lier vos téléphones dans Réglages.') + '</div>';
+  for (const [k, lab] of COURSE_CATS) {
+    const it = todo.filter(c => c.cat === k); if (!it.length) continue;
+    h += '<div class="card"><h2 style="font-size:16px">' + lab + '</h2>' + it.map(courseRow).join('') + '</div>';
+  }
+  if (done.length) h += '<div class="card"><h2 style="font-size:16px">✅ Dans le panier <button class="btn sm sec" data-a="cClear">Vider</button></h2>' + done.map(courseRow).join('') + '</div>';
+  return h;
+}
+function courseRow(c) {
+  return '<div class="item' + (c.done ? ' done' : '') + '"><button class="chk' + (c.done ? ' on' : '') + '" data-a="cTog" data-id="' + c.id + '">' + (c.done ? '✓' : '') + '</button>' +
+    '<div class="body" data-a="cEdit" data-id="' + c.id + '"><b>' + esc(c.txt) + '</b>' + (c.qty ? ' <span class="pill">' + esc(c.qty) + '</span>' : '') +
+    '<div class="who">' + (c.by ? avatar(c.by) + ' ' + esc(pname(c.by)) : '') + '</div></div><button class="chk" style="border:0;opacity:.5" data-a="cDel" data-id="' + c.id + '">✕</button></div>';
+}
+function parseCourse(raw) {
+  let t = raw.trim(); if (!t) return null;
+  let qty = '';
+  const m = t.match(/^(\d+[.,]?\d*\s*(?:kg|g|l|cl|ml|x|paquets?|boîtes?|boites?|bouteilles?|packs?)?)\s+(.+)$/i) || t.match(/^(.+?)\s+[x×]\s*(\d+)$/i);
+  if (m) { if (/^\d/.test(m[1])) { qty = m[1].trim(); t = m[2]; } else { t = m[1]; qty = m[2]; } }
+  t = t.charAt(0).toUpperCase() + t.slice(1);
+  return { id: uid(), txt: t, qty, cat: courseCat(t), done: false, by: S.owner, at: Date.now() };
+}
+function addCourses(text) {
+  S.courses = S.courses || [];
+  let n = 0;
+  for (const part of text.split(/[,;\n]+/)) { const c = parseCourse(part); if (c) { S.courses.push(c); n++; } }
+  if (n) { save(); render(); setTimeout(() => { const i = $('#cIn'); if (i) i.focus(); }, 50); }
+}
+Object.assign(A, {
+  rtab(d) { repasTab = d.t; render(); },
+  menusGo() { repasTab = 'menus'; A.go({ v: 'repas' }); },
+  filterGo(d) { filter = d.id; selDay = today(); weekStart = null; A.go({ v: 'planning' }); },
+  cAdd() { const i = $('#cIn'); if (i && i.value.trim()) addCourses(i.value); },
+  cSugg(d) { addCourses(d.t); },
+  cTog(d) { const c = (S.courses || []).find(x => x.id === d.id); if (c) { c.done = !c.done; save(); render(); } },
+  cDel(d) { S.courses = (S.courses || []).filter(x => x.id !== d.id); save(); render(); },
+  cClear() { S.courses = (S.courses || []).filter(x => !x.done); save(); render(); },
+  cEdit(d) {
+    const c = (S.courses || []).find(x => x.id === d.id); if (!c) return;
+    form('Modifier', [{ k: 'txt', label: 'Article' }, { k: 'qty', label: 'Quantité', ph: 'Ex. 2, 1 kg, 3 paquets' },
+      { k: 'cat', label: 'Rayon', type: 'select', options: COURSE_CATS.map(x => [x[0], x[1]]) }], c, v => {
+      if (!v.txt) { toast('Nom manquant'); return false; } Object.assign(c, v);
+    }, () => { S.courses = S.courses.filter(x => x !== c); });
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'cIn') A.cAdd(); });
+
+/* ======================================================================
+   SYNCHRO EN DIRECT ENTRE LES DEUX TÉLÉPHONES (ntfy.sh, données chiffrées)
+   ====================================================================== */
+const NTFY = 'https://ntfy.sh';
+const APP_URL = location.origin + location.pathname.replace(/index\.html$/, '');
+const SHARED = ['events', 'courses', 'meds', 'vaccines', 'birthdays'];
+const other = () => S.owner === 'papa' ? 'maman' : 'papa';
+const b64u = u8 => btoa(String.fromCharCode(...u8)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = s => b64d(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+const jhash = o => { let h = 0; const s = JSON.stringify(o); for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return h; };
+const sharedItem = (col, x) => !(col === 'events' && x.src); // le planning chiffré n'est pas re-partagé
+let syncTimer = null, pushTimer = null, lastPushHash = null, syncBusy = false;
+
+async function sKey() { return crypto.subtle.importKey('raw', unb64u(S.sync.key), 'AES-GCM', false, ['encrypt', 'decrypt']); }
+async function gz(str) {
+  if (typeof CompressionStream === 'undefined') return new TextEncoder().encode(str);
+  const cs = new Blob([str]).stream().pipeThrough(new CompressionStream('gzip'));
+  return new Uint8Array(await new Response(cs).arrayBuffer());
+}
+async function gunz(u8, zipped) {
+  if (!zipped) return new TextDecoder().decode(u8);
+  const ds = new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return await new Response(ds).text();
+}
+// Repère les éléments modifiés/supprimés depuis la dernière fois → horodatage (dernier qui écrit gagne)
+function stamp() {
+  S.hashes = S.hashes || {}; S.tomb = S.tomb || {};
+  const now = Date.now(), seen = {}, changed = [];
+  for (const col of SHARED) for (const x of (S[col] || [])) {
+    if (!sharedItem(col, x)) continue;
+    const { upd, by2, ...core } = x, hsh = jhash(core), k = col + ':' + x.id;
+    seen[k] = 1;
+    if (S.hashes[k] !== hsh) { x.upd = now; x.by2 = S.owner; S.hashes[k] = hsh; changed.push([col, x, S.hashes[k + '#n'] === undefined]); S.hashes[k + '#n'] = 1; }
+  }
+  for (const k in S.hashes) { if (k.includes('#')) continue; if (!seen[k]) { S.tomb[k] = now; delete S.hashes[k]; delete S.hashes[k + '#n']; changed.push(['del', { k }, false]); } }
+  return changed;
+}
+function snapshot() {
+  const o = { from: S.owner, t: Date.now(), tomb: S.tomb || {}, sched: S.sched || {} };
+  for (const col of SHARED) o[col] = (S[col] || []).filter(x => sharedItem(col, x));
+  return o;
+}
+function mergeSnap(o) {
+  let n = 0; S.tomb = S.tomb || {}; S.hashes = S.hashes || {};
+  for (const k in (o.tomb || {})) if (!S.tomb[k] || S.tomb[k] < o.tomb[k]) S.tomb[k] = o.tomb[k];
+  Object.assign(S.sched = S.sched || {}, o.sched || {});
+  for (const col of SHARED) {
+    S[col] = S[col] || [];
+    for (const x of (o[col] || [])) {
+      const k = col + ':' + x.id, t = S.tomb[k];
+      if (t && t >= (x.upd || 0)) continue;
+      const i = S[col].findIndex(y => y.id === x.id);
+      if (i < 0) { S[col].push(x); n++; }
+      else if ((x.upd || 0) > (S[col][i].upd || 0)) { S[col][i] = x; n++; }
+      else continue;
+      const { upd, by2, ...core } = x; S.hashes[k] = jhash(core); S.hashes[k + '#n'] = 1;
+    }
+    // suppressions reçues
+    const before = S[col].length;
+    S[col] = S[col].filter(y => { const t = S.tomb[col + ':' + y.id]; return !(t && t >= (y.upd || 0)); });
+    if (S[col].length !== before) n += before - S[col].length;
+    for (const y of S[col]) if (!S.tomb[col + ':' + y.id]) { } // rien
+  }
+  for (const k in S.tomb) if (S.hashes[k] !== undefined) { const [col, id] = k.split(':'); if (!(S[col] || []).some(y => y.id === id)) { delete S.hashes[k]; delete S.hashes[k + '#n']; } }
+  return n;
+}
+function describe(changed) {
+  const lines = [];
+  for (const [col, x, isNew] of changed) {
+    if (col === 'del') continue;
+    if (col === 'courses') { if (isNew) lines.push('🛒 ' + x.txt + (x.qty ? ' (' + x.qty + ')' : '')); continue; }
+    if (col === 'events') lines.push((isNew ? '📅 ' : '✏️ ') + x.title + ' — ' + fmtShort(x.date) + (x.time ? ' ' + x.time : '') + (x.person && x.person !== 'all' ? ' (' + pname(x.person) + ')' : ''));
+    else if (col === 'meds') lines.push('💊 ' + x.name + ' — ' + pname(x.person));
+    else if (col === 'vaccines') lines.push('💉 ' + x.name + ' — ' + pname(x.person));
+    else if (col === 'birthdays') lines.push('🎂 ' + x.name);
+  }
+  return lines;
+}
+async function ntfyPost(topic, body, opts) {
+  // options passées en paramètres d'URL (UTF-8 : accents et emojis OK)
+  const q = Object.entries(opts || {}).filter(([, v]) => v !== undefined && v !== '').map(([k, v]) => k.toLowerCase() + '=' + encodeURIComponent(v)).join('&');
+  return fetch(NTFY + '/' + topic + (q ? '?' + q : ''), { method: 'POST', body });
+}
+function schedulePush() { if (!S.sync || !S.sync.base || !S.owner) return; clearTimeout(pushTimer); pushTimer = setTimeout(syncPush, 1500); }
+async function syncPush(force) {
+  if (!S.sync || !S.sync.base || !navigator.onLine) return;
+  const changed = stamp();
+  const sn = snapshot(), hsh = jhash({ ...sn, t: 0 });
+  if (!force && !changed.length && hsh === lastPushHash) { saveRaw(); return; }
+  saveRaw();
+  try {
+    const key = await sKey(), iv = crypto.getRandomValues(new Uint8Array(12));
+    const zipped = typeof CompressionStream !== 'undefined';
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, await gz(JSON.stringify(sn))));
+    const payload = b64u(iv) + '.' + b64u(ct), id = uid(), size = 3000, n = Math.ceil(payload.length / size);
+    for (let i = 0; i < n; i++) await ntfyPost(S.sync.base + '-d', JSON.stringify({ s: id, i, n, z: zipped ? 1 : 0, f: S.owner, d: payload.slice(i * size, (i + 1) * size) }));
+    lastPushHash = hsh; S.sync.pushedAt = Date.now(); saveRaw();
+    const lines = describe(changed);
+    if (lines.length && !force) {
+      const isCourses = changed.every(c => c[0] === 'courses' || c[0] === 'del');
+      await ntfyPost(S.sync.base + '-' + other(), lines.slice(0, 8).join('\n') + (lines.length > 8 ? '\n… +' + (lines.length - 8) : ''), {
+        Title: pname(S.owner) + (isCourses ? ' a ajouté aux courses' : ' a mis à jour le planning'), Tags: isCourses ? 'shopping_cart' : 'calendar', Priority: '4', Click: APP_URL
+      });
+    }
+    scheduleRdvAlarms();
+  } catch (e) { }
+}
+async function syncPull() {
+  if (!S.sync || !S.sync.base || !navigator.onLine || syncBusy) return;
+  syncBusy = true;
+  try {
+    const since = S.sync.since || 'all';
+    const r = await fetch(NTFY + '/' + S.sync.base + '-d/json?poll=1&since=' + encodeURIComponent(since), { cache: 'no-store' });
+    if (!r.ok) return;
+    const msgs = (await r.text()).split('\n').filter(Boolean).map(l => { try { return JSON.parse(l); } catch (e) { return null; } }).filter(m => m && m.event === 'message');
+    if (!msgs.length) return;
+    S.sync.since = msgs[msgs.length - 1].id;
+    const groups = {};
+    for (const m of msgs) { let p; try { p = JSON.parse(m.message); } catch (e) { continue; } if (!p.s || p.f === S.owner) continue; (groups[p.s] = groups[p.s] || { n: p.n, z: p.z, parts: [], t: m.time }).parts[p.i] = p.d; }
+    const key = await sKey(); let total = 0, newestFrom = null;
+    for (const g of Object.values(groups).sort((a, b) => a.t - b.t)) {
+      if (g.parts.filter(x => x !== undefined).length !== g.n) continue;
+      const [iv, ct] = g.parts.join('').split('.');
+      try {
+        const plain = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64u(iv) }, key, unb64u(ct)));
+        const o = JSON.parse(await gunz(plain, g.z)); total += mergeSnap(o); newestFrom = o.from;
+      } catch (e) { }
+    }
+    S.sync.pulledAt = Date.now(); saveRaw();
+    if (total) { stamp(); lastPushHash = jhash({ ...snapshot(), t: 0 }); saveRaw(); render(); toast('🔄 Mis à jour depuis le téléphone de ' + pname(newestFrom || other())); }
+  } catch (e) { } finally { syncBusy = false; }
+}
+function saveRaw() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
+function startSync() {
+  if (!S.sync || !S.sync.base) return;
+  clearInterval(syncTimer);
+  syncPull().then(() => syncPush(true));
+  syncTimer = setInterval(() => { if (!document.hidden) syncPull(); }, 15000);
+}
+// Liaison par lien (#lien-...)
+function pairLink() { return APP_URL + '#lien-' + b64u(new TextEncoder().encode(JSON.stringify({ b: S.sync.base, k: S.sync.key }))); }
+function readPairHash() {
+  const m = location.hash.match(/^#lien-([A-Za-z0-9_-]+)/); if (!m) return;
+  try {
+    const o = JSON.parse(new TextDecoder().decode(unb64u(m[1])));
+    if (o.b && o.k) { S.sync = Object.assign(S.sync || {}, { base: o.b, key: o.k, since: '' }); saveRaw(); setTimeout(() => toast('🔗 Téléphones liés ! La synchro en direct est active.'), 900); }
+  } catch (e) { }
+  history.replaceState(null, '', location.pathname);
+}
+Object.assign(A, {
+  syncCreate() {
+    const rnd = b64u(crypto.getRandomValues(new Uint8Array(15))).replace(/[-_]/g, 'x').toLowerCase();
+    S.sync = { base: 'rr-' + rnd, key: b64u(crypto.getRandomValues(new Uint8Array(32))), since: '' };
+    S.hashes = {}; save(); render(); startSync();
+  },
+  async syncShare() {
+    const t = 'Rozane et Rochane Family — touche ce lien pour lier ton téléphone au mien :\n' + pairLink();
+    if (navigator.share) { try { await navigator.share({ text: t }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(pairLink()); toast('Lien copié'); } catch (e) { }
+  },
+  syncCopy() { navigator.clipboard.writeText(pairLink()).then(() => toast('Lien copié'), () => { }); },
+  syncNow() { S.sync.since = ''; syncPull().then(() => syncPush(true)).then(() => toast('🔄 Synchro faite')); },
+  syncOff() { if (confirm('Délier ce téléphone ? Il ne recevra plus les mises à jour.')) { S.sync = null; save(); clearInterval(syncTimer); render(); } },
+  ntfySub(d) { location.href = 'ntfy://ntfy.sh/' + S.sync.base + '-' + d.t; },
+  ntfyTest() { ntfyPost(S.sync.base + '-' + S.owner, 'Si tu lis ceci, les notifications marchent ✅', { Title: 'Test Rozane et Rochane Family', Tags: 'white_check_mark' }).then(() => toast('Notification de test envoyée')); },
+  alarmTest() { ntfyPost(S.sync.base + '-alarme', 'Test de l\'alarme de rendez-vous', { Title: '⏰ Test alarme', Priority: '5', Tags: 'rotating_light', Click: APP_URL }).then(() => toast('Alarme de test envoyée')); }
+});
+function syncCard() {
+  const s = S.sync;
+  let h = '<div class="card"><h2>🔗 Liaison des téléphones</h2>';
+  if (!s || !s.base) return h + '<div class="mute" style="margin-bottom:10px">Lie ton téléphone à celui de ' + esc(pname(other())) + ' : tout ce que tu ajoutes (courses, RDV, traitements, vaccins, anniversaires) arrive en direct chez l\'autre, avec une notification.</div><button class="btn full" data-a="syncCreate">Créer la liaison</button><div class="mute" style="margin-top:8px">Sur l\'autre téléphone, il suffira de toucher le lien que tu lui envoies.</div></div>';
+  const ago = t => !t ? 'jamais' : (Math.round((Date.now() - t) / 60000) < 1 ? 'à l\'instant' : 'il y a ' + Math.round((Date.now() - t) / 60000) + ' min');
+  h += '<div class="mute">✅ Synchro active · reçu ' + ago(s.pulledAt) + ' · envoyé ' + ago(s.pushedAt) + '</div>';
+  h += '<div class="row wrap" style="gap:8px;margin:10px 0"><button class="btn sm" data-a="syncShare">📤 Envoyer le lien à ' + esc(pname(other())) + '</button><button class="btn sm sec" data-a="syncNow">🔄 Synchroniser</button></div>';
+  h += '<h3>🔔 Notifications et alarmes, même appli fermée</h3><div class="mute" style="margin-bottom:8px">1) Installe l\'appli gratuite <b>ntfy</b> (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank">Play Store</a> · <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank">iPhone</a>). 2) Touche les deux boutons ci-dessous. 3) Dans ntfy, sur l\'abonnement « alarme », active <b>« Notifications insistantes »</b> pour que l\'alarme sonne jusqu\'à ce que tu l\'arrêtes.</div>';
+  h += '<div class="row wrap" style="gap:8px"><button class="btn sm" data-a="ntfySub" data-t="' + S.owner + '">🔔 Mes notifications</button><button class="btn sm" data-a="ntfySub" data-t="alarme">⏰ Alarmes RDV</button></div>';
+  h += '<div class="row wrap" style="gap:8px;margin-top:8px"><button class="btn sm sec" data-a="ntfyTest">Tester une notif</button><button class="btn sm sec" data-a="alarmTest">Tester l\'alarme</button><button class="btn sm sec" data-a="syncOff">Délier</button></div>';
+  return h + '<div class="mute" style="margin-top:8px">Les données passent chiffrées. Le texte des notifications (ex. « 🛒 Lait ») transite en clair par ntfy.sh, sur un canal secret connu de vos deux téléphones seulement.</div></div>';
+}
+
+/* ======================================================================
+   ALARMES DE RENDEZ-VOUS : la veille à 21 h et 1 h 30 avant — plein écran
+   ====================================================================== */
+const RDV_CATS = ['rdv', 'medecin'];
+const isRdv = e => e && RDV_CATS.includes(e.cat) && e.time;
+function rdvAlarmsFor(D) { // alarmes qui sonnent le jour D
+  const out = [];
+  for (const ev of S.events) {
+    if (!isRdv(ev)) continue;
+    if (occurs(ev, addDays(D, 1))) out.push({ at: '21:00', key: 'rdvV:' + ev.id + ':' + addDays(D, 1), ev, date: addDays(D, 1), msg: 'Demain à ' + ev.time });
+    if (occurs(ev, D)) { const t = toMin(ev.time) - 90; if (t >= 0) out.push({ at: addMin(ev.time, -90), key: 'rdv90:' + ev.id + ':' + D, ev, date: D, msg: 'Dans 1 h 30, à ' + ev.time }); }
+  }
+  const tm = addDays(D, 1); // rendez-vous tôt le lendemain (avant 1 h 30) : alarme la veille au soir
+  for (const ev of S.events) if (isRdv(ev) && occurs(ev, tm) && toMin(ev.time) - 90 < 0) out.push({ at: addMin(ev.time, -90), key: 'rdv90:' + ev.id + ':' + tm, ev, date: tm, msg: 'Dans 1 h 30, à ' + ev.time });
+  return out;
+}
+let alarmLoop = null;
+function fullAlarm(title, sub, who) {
+  let el = $('#alarmfs'); if (!el) { el = document.createElement('div'); el.id = 'alarmfs'; document.body.appendChild(el); }
+  el.className = 'alarmfs';
+  el.innerHTML = '<div class="afin"><div class="aring">⏰</div><div class="atime">' + nowHM() + '</div><h2>' + esc(title) + '</h2><p>' + esc(sub) + '</p>' + (who ? '<p class="awho">' + whoMark(who) + ' ' + esc(pname(who)) + '</p>' : '') +
+    '<button class="abtn" data-a="alarmStop">J\'ai vu ✓</button><button class="abtn2" data-a="alarmSnooze" data-t="' + esc(title) + '" data-s="' + esc(sub) + '" data-w="' + esc(who || '') + '">Rappeler dans 10 min</button></div>';
+  try { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => { }); } catch (e) { }
+  const ring = () => { const keep = S.notif.sound; S.notif.sound = true; beep(5); S.notif.sound = keep; if (navigator.vibrate) navigator.vibrate([600, 250, 600, 250, 600]); };
+  ring(); clearInterval(alarmLoop); alarmLoop = setInterval(ring, 2600);
+  if (document.hidden) notify(title, sub);
+  try { navigator.wakeLock && navigator.wakeLock.request('screen').then(l => { el._lock = l; }).catch(() => { }); } catch (e) { }
+}
+Object.assign(A, {
+  alarmStop() { clearInterval(alarmLoop); if (navigator.vibrate) navigator.vibrate(0); const el = $('#alarmfs'); if (el) { try { el._lock && el._lock.release(); } catch (e) { } el.remove(); } try { document.fullscreenElement && document.exitFullscreen(); } catch (e) { } },
+  alarmSnooze(d) { A.alarmStop(); setTimeout(() => fullAlarm(d.t, d.s, d.w), 10 * 60000); toast('⏰ Je te rappelle dans 10 min'); }
+});
+function checkRdvAlarms() {
+  const D = today(), now = toMin(nowHM()), fired = firedGet();
+  for (const a of rdvAlarmsFor(D)) {
+    const at = toMin(a.at);
+    if (now >= at && now <= at + 3 && !fired[a.key]) { firedSet(a.key); fullAlarm((CATS[a.ev.cat] || CATS.rdv)[0] + ' ' + a.ev.title, a.msg + (a.ev.notes ? ' — ' + a.ev.notes : ''), a.ev.person); }
+  }
+}
+// Alarmes programmées sur ntfy (sonnent même appli fermée) — ntfy accepte jusqu'à 3 jours à l'avance
+async function scheduleRdvAlarms() {
+  if (!S.sync || !S.sync.base || !navigator.onLine) return;
+  S.sched = S.sched || {};
+  const nowMs = Date.now(), max = nowMs + 70 * 3600 * 1000;
+  let changed = false;
+  for (let i = 0; i < 3; i++) {
+    for (const a of rdvAlarmsFor(addDays(today(), i))) {
+      const [y, mo, d] = (a.key.startsWith('rdvV') ? addDays(a.date, -1) : (toMin(a.ev.time) - 90 < 0 ? addDays(a.date, -1) : a.date)).split('-').map(Number), [H, M] = a.at.split(':').map(Number);
+      const when = new Date(y, mo - 1, d, H, M).getTime();
+      const sk = a.key + '@' + a.ev.time;
+      if (when < nowMs + 60000 || when > max || S.sched[sk]) continue;
+      try {
+        const r = await ntfyPost(S.sync.base + '-alarme', a.msg + (a.ev.notes ? ' — ' + a.ev.notes : '') + (a.ev.person && a.ev.person !== 'all' ? ' (' + pname(a.ev.person) + ')' : ''), {
+          Title: '⏰ ' + a.ev.title, Priority: '5', Tags: 'rotating_light', At: String(Math.floor(when / 1000)), Click: APP_URL
+        });
+        if (r.ok) { S.sched[sk] = Math.floor(when / 1000); changed = true; }
+      } catch (e) { }
+    }
+  }
+  for (const k in S.sched) if (S.sched[k] * 1000 < nowMs - 86400000) { delete S.sched[k]; changed = true; }
+  if (changed) { saveRaw(); }
+}
+
 /* ---------- Démarrage ---------- */
 load();
+readPairHash();
+window.addEventListener('hashchange', () => { if (/^#lien-/.test(location.hash)) { readPairHash(); render(); startSync(); } });
 render();
 if (!S.owner) onboarding(); else lockNow();
 iosHint();
@@ -1514,12 +1919,15 @@ if ('serviceWorker' in navigator) {
 }
 fetchWeather();
 syncPlanning();
+startSync();
+scheduleRdvAlarms();
+setInterval(scheduleRdvAlarms, 30 * 60 * 1000);
 setInterval(fetchWeather, 30 * 60 * 1000);
 setInterval(syncPlanning, 60 * 60 * 1000);
 setInterval(tick, 20000); setTimeout(tick, 1500);
 setInterval(() => { if (view === 'accueil' && $('#modal').classList.contains('hidden')) render(); }, 60000);
-window.addEventListener('online', () => { fetchWeather(); syncPlanning(); });
-document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (hiddenAt && Date.now() - hiddenAt > 120000 && !locked) lockNow(); if (!document.hidden) { tick(); fetchWeather(); syncPlanning(); if ($('#modal').classList.contains('hidden')) render(); } });
+window.addEventListener('online', () => { fetchWeather(); syncPlanning(); syncPull().then(() => syncPush()); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (hiddenAt && Date.now() - hiddenAt > 120000 && !locked) lockNow(); if (!document.hidden) { tick(); fetchWeather(); syncPlanning(); syncPull(); if ($('#modal').classList.contains('hidden')) render(); } });
 // Nettoyage des anciens journaux de rappels
 for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith('kaelumFired_') && k < 'kaelumFired_' + addDays(today(), -3)) localStorage.removeItem(k); }
 
